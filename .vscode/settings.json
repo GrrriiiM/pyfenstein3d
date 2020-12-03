@@ -1,0 +1,15 @@
+{
+    "python.pythonPath": "C:\\Users\\allis\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--init-hook",
+        "import sys; sys.path.insert(0, './')"
+    ]
+}

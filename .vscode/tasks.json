@@ -1,0 +1,38 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "pip install dev",
+            "type": "shell",
+            "command": "pip install -r requirements-dev.txt",
+            "problemMatcher": []
+        },
+        {
+            "label": "pip install",
+            "type": "shell",
+            "command": "pip install -r requirements.txt",
+            "problemMatcher": []
+        },
+        {
+            "label": "pytest coverage",
+            "type": "shell",
+            "command": "pytest",
+            "args": [
+                "--html=./tests_coverage/report.html",
+                "--cov-report",
+                "html",
+                "--cov=pyfenstein3d",
+                "tests/",
+                "&",
+                "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"",
+                "${workspaceFolder}\\tests_coverage\\report.html",
+                "&",
+                "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"",
+                "${workspaceFolder}\\tests_result\\index.html"
+            ] ,
+            "problemMatcher": []
+        }
+    ]
+}
