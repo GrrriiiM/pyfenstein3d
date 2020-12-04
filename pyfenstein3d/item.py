@@ -3,9 +3,9 @@ import math
 
 
 class Item(Vector2d):
-    def __init__(self, x: float, y: float, sprite_id: str, is_solid: bool=False):
-        super().__init__(x, y)
-        self.__sprite_id = sprite_id
+    def __init__(self, vector_x: float, vector_y: float, type_id: str, is_solid: bool=False):
+        super().__init__(vector_x, vector_y)
+        self.__type_id = type_id
         self.__is_solid = is_solid
 
     @property
@@ -25,18 +25,20 @@ class Item(Vector2d):
         return self.__offset_y
 
     @property
-    def sprite_id(self):
-        return self.__sprite_id
+    def type_id(self):
+        return self.__type_id
 
     @property
     def is_solid(self):
         return self.__is_solid
 
-    def set_x_y(self, x: float, y: float):
-        super().set_x_y(x, y)
-        self.__block_x = math.floor(x)
-        self.__block_y = math.floor(y)
-        self.__offset_x = x % 1
-        self.__offset_y = y % 1
+    def set_x_y(self, vector_x: float, vector_y: float):
+        super().set_x_y(vector_x, vector_y)
+        self.__block_x = math.floor(vector_x)
+        self.__block_y = math.floor(vector_y)
+        self.__offset_x = vector_x % 1
+        self.__offset_y = vector_y % 1
+
     
+
 

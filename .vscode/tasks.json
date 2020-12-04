@@ -28,8 +28,6 @@
                 "&",
                 "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"",
                 "${workspaceFolder}\\tests_coverage\\report.html",
-                "&",
-                "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"",
                 "${workspaceFolder}\\tests_result\\index.html"
             ] ,
             "problemMatcher": []

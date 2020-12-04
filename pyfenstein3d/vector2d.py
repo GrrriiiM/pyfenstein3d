@@ -35,12 +35,12 @@ class Vector2d():
         return self.__ang
     ang = property(get_ang)
 
-    def set_x_y(self, v_x: float, v_y: float):
+    def set_x_y(self, vector_x: float, vector_y: float):
         """atribui x e y"""
-        self.__x = v_x
-        self.__y = v_y
-        self.__ang = math.atan2(v_x, v_y)
-        self.__mag = math.sqrt(math.pow(v_x, 2) + math.pow(v_y, 2))
+        self.__x = vector_x
+        self.__y = vector_y
+        self.__ang = math.atan2(vector_x, vector_y)
+        self.__mag = math.sqrt(math.pow(vector_x, 2) + math.pow(vector_y, 2))
 
     def copy(self):
         """cria copia"""
