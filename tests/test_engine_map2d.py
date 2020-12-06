@@ -1,10 +1,7 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join('..', 'pyfenstein3d')))
-from pyfenstein3d.decoration import Decoration
-from pyfenstein3d.wall import Wall
-from pyfenstein3d.wall import Item
-from pyfenstein3d.map2d import Map2d
+from pyfenstein3d_engine import Decoration
+from pyfenstein3d_engine import Wall
+from pyfenstein3d_engine import Item
+from pyfenstein3d_engine import Map2d
 
 def test_init():
     item = Item(0, 0, 10)
@@ -44,6 +41,3 @@ def test_create_with_pattern():
     assert isinstance(map2d.block(4, 1), Decoration)
     assert map2d.block(4, 1).type_id == 60
     assert map2d.block(4, 1).is_solid
-    
-
-    

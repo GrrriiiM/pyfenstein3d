@@ -1,22 +1,17 @@
 import math
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join('..', 'pyfenstein3d')))
-from pyfenstein3d.vector2d import Vector2d
-
+from pyfenstein3d_engine import Vector2d
 
 def test_init():
-    v = Vector2d(1.5, 3.7)
-    assert v.x == 1.5
-    assert v.y == 3.7
-    assert round(v.ang, 3) == 0.385
-    assert round(v.mag, 3) == 3.992
-    v.x = 10
-    v.y = 20
-    assert v.x == 10
-    assert v.y == 20
-    assert round(v.ang, 3) == 0.464
-    assert round(v.mag, 3) == 22.361
+    vector = Vector2d(10, 0)
+    assert vector.x == 10
+    assert vector.y == 0
+    assert round(vector.ang, 3) == 0
+    assert round(vector.mag, 3) == 10
+    vector.y = 10
+    assert vector.x == 10
+    assert vector.y == 10
+    assert round(vector.ang, 3) == round(math.pi / 4, 3)
+    assert round(vector.mag, 3) == 14.142
 
 def test_add():
     vec1 = Vector2d(1, 2)

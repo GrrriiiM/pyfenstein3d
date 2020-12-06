@@ -23,7 +23,7 @@
                 "--html=./tests_coverage/report.html",
                 "--cov-report",
                 "html",
-                "--cov=pyfenstein3d",
+                "--cov=pyfenstein3d_engine",
                 "tests/",
                 "&",
                 "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"",

@@ -1,6 +1,6 @@
-from pyfenstein3d.item import Item
-from pyfenstein3d.wall import Wall
-from pyfenstein3d.decoration import Decoration
+from .item import Item
+from .wall import Wall
+from .decoration import Decoration
 
 
 class Map2d():

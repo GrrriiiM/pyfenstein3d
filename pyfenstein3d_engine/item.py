@@ -1,9 +1,8 @@
-from pyfenstein3d.vector2d import Vector2d
 import math
-
+from .vector2d import Vector2d
 
 class Item(Vector2d):
-    def __init__(self, vector_x: float, vector_y: float, type_id: str, is_solid: bool=False):
+    def __init__(self, vector_x: float, vector_y: float, type_id: int, is_solid: bool=False):
         super().__init__(vector_x, vector_y)
         self.__type_id = type_id
         self.__is_solid = is_solid
@@ -38,7 +37,3 @@ class Item(Vector2d):
         self.__block_y = math.floor(vector_y)
         self.__offset_x = vector_x % 1
         self.__offset_y = vector_y % 1
-
-    
-
-

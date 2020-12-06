@@ -1,7 +1,4 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join('..', 'pyfenstein3d')))
-from pyfenstein3d.item import Item
+from pyfenstein3d_engine import Item
 
 
 def test_init():

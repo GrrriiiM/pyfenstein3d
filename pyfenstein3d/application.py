@@ -2,7 +2,6 @@ import os
 import tkinter as tk
 import time
 from PIL import Image, ImageTk
-from pyfenstein3d import *
 
 class Application(tk.Frame):
     def __init__(self, master: tk.Tk = None):
