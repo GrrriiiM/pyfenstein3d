@@ -8,7 +8,7 @@ class Person(Item):
     def __init__(self, vector_x: float, vector_y: float, type_id: int, fov: FieldOfView):
         super().__init__(vector_x, vector_y, type_id, True)
         self.__fov = fov
-        self.__last_pos = self.copy()
+        self.__last_pos = self._vector2d.copy()
         self.is_turning_left = False
         self.is_turning_right = False
         self.is_moving_front = False
@@ -43,11 +43,12 @@ class Person(Item):
         if movement_x != 0 or movement_y != 0:
             self.move(Vector2d(movement_x / movement_count, movement_y / movement_count))
 
+    def cast(self):
+        self.__fov.cast(self._vector2d)
+
     def move(self, movement: Vector2d):
-        self.__last_pos = self.copy()
-        self.rot(-self.__fov.ang)
-        self.set(self + movement)
-        self.rot(self.__fov.ang)
+        self.__last_pos = self._vector2d.copy()
+        self._vector2d = ((self._vector2d ** -self.__fov.ang) + movement) ** self.__fov.ang
 
     def turn(self, angle: float):
         self.__fov.rot(angle)

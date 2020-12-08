@@ -7,7 +7,7 @@ def test_init():
     assert vector.y == 0
     assert round(vector.ang, 3) == 0
     assert round(vector.mag, 3) == 10
-    vector.y = 10
+    vector = Vector2d(10, 10)
     assert vector.x == 10
     assert vector.y == 10
     assert round(vector.ang, 3) == round(math.pi / 4, 3)
@@ -47,7 +47,7 @@ def test_floordiv():
 
 def test_rot():
     vec = Vector2d(4, 3)
-    vec.rot(math.pi / 2)
+    vec = vec ** (math.pi / 2)
     assert round(vec.x, 0) == -3
     assert round(vec.y, 0) == 4
 
@@ -60,5 +60,5 @@ def test_copy():
 
 def test_norm():
     vec = Vector2d(4, 3)
-    vec.norm()
+    vec = vec % 1
     assert vec.mag == 1

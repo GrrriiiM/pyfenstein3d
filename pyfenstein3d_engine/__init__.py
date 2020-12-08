@@ -6,3 +6,5 @@ from .person import Person
 from .field_of_view import FieldOfView
 from .map2d import Map2d
 from . import config
+from .item_grid import ItemGrid
+from .ray import Ray

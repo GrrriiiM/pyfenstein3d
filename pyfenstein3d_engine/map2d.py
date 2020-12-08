@@ -1,40 +1,22 @@
 from .item import Item
 from .wall import Wall
 from .decoration import Decoration
+from .item_grid import ItemGrid
+from .player import Player
 
 
 class Map2d():
     def __init__(self, items: []):
-        self.__max_x = max(map(lambda i: i.block_x, items)) + 1
-        self.__max_y = max(map(lambda i: i.block_y, items)) + 1
-        self.__items = []
-        self.__walls = []
-        self.__decorations = []
-        blocks = [None] * self.__max_y * self.__max_x
-        self.__blocks = [blocks[n:n+self.__max_y]
-                         for n in range(0, len(blocks), self.__max_y)]
-        for item in items:
-            self.__items.append(item)
-            if isinstance(item, Wall):
-                self.__walls.append(item)
-            if isinstance(item, Decoration):
-                self.__decorations.append(item)
-            self.__blocks[item.block_x][item.block_y] = item
-
-    def block(self, block_x: int, block_y: int) -> Item:
-        return self.__blocks[block_x][block_y] if self.__blocks[block_x] is not None else None
+        self.__grid = ItemGrid(items)
+        self.__players = { item.id: item for item in items if item is Player}
 
     @property
-    def walls(self):
-        return tuple(self.__walls)
+    def grid(self) -> Item:
+        return self.__grid
 
-    @property
-    def max_x(self):
-        return self.__max_x
-
-    @property
-    def max_y(self):
-        return self.__max_y
+    def update(self):
+        for player in self.__players:
+            player.update()
 
     @staticmethod
     def create_with_pattern(pattern: str):

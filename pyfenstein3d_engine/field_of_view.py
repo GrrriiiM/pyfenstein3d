@@ -1,31 +1,45 @@
-import math
 from .vector2d import Vector2d
+from .config import RAY_COUNT
+from .config import FOV_ANGLE
+from .ray import Ray
 
-class FieldOfView(Vector2d):
-    def __init__(self, angle_direction: float, total_angle_view: float):
-        self.__total_angle_view = total_angle_view
-        self.__ang_abs_min = total_angle_view / -2
-        self.__ang_abs_max = total_angle_view / 2
-        self.__min = Vector2d(1, 0)
-        self.__min.rot(self.__ang_abs_min)
-        self.__max = Vector2d(1, 0)
-        self.__max.rot(self.__ang_abs_max)
-        super().__init__(1, 0)
-        self.rot(angle_direction)
+
+class FieldOfView():
+    def __init__(self, angle: float):
+        self.__total_angle_view = FOV_ANGLE
+        self.__ang_abs_min = self.__total_angle_view / -2
+        self.__ang_abs_max = self.__total_angle_view / 2
+        self.__vector2d_ang_min = Vector2d(1, 0) ** self.__ang_abs_min
+        self.__vector2d_ang_max = Vector2d(1, 0) ** self.__ang_abs_max
+        self.__vector2d_ang = Vector2d(1, 0)
+        ray_count = RAY_COUNT - RAY_COUNT % 2
+        ray_angle = FOV_ANGLE / (RAY_COUNT - 1)
+        self.__rays = [Ray((c * ray_angle) - (FOV_ANGLE / 2)) for c in range(ray_count)]
+
+        self.rot(angle)
+
+    @property
+    def ang(self):
+        return self.__vector2d_ang.ang
 
     @property
     def ang_min(self):
-        return self.__min.ang
+        return self.__vector2d_ang_min.ang
 
     @property
     def ang_max(self):
-        return self.__max.ang
+        return self.__vector2d_ang_max.ang
 
-    def set_x_y(self, vector_x: float, vector_y: float):
-        mag = math.sqrt(math.pow(vector_x, 2) + math.pow(vector_y, 2))
-        if mag == 0:
-            super().set_x_y(1, 0)
-        else:
-            super().set_x_y(vector_x / mag, vector_y / mag)
-        self.__min.rot(self.ang)
-        self.__max.rot(self.ang)
+    @property
+    def rays(self):
+        return tuple(self.__rays)
+
+    def rot(self, rad: float):
+        self.__vector2d_ang = self.__vector2d_ang ** rad
+        self.__vector2d_ang_min = self.__vector2d_ang_min ** rad
+        self.__vector2d_ang_max = self.__vector2d_ang_max ** rad
+        for ray in self.__rays:
+            ray.rot(rad)
+
+    def cast(self, pos: Vector2d):
+        pass
