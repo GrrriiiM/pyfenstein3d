@@ -1,7 +1,7 @@
-from pyfenstein3d_engine import Decoration
-from pyfenstein3d_engine import Wall
-from pyfenstein3d_engine import Item
-from pyfenstein3d_engine import ItemGrid
+from pyfenstein3d.engine import Decoration
+from pyfenstein3d.engine import Wall
+from pyfenstein3d.engine import Item
+from pyfenstein3d.engine import ItemGrid
 
 def test_init():
     item = Item(0, 0, 10)

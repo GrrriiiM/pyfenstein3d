@@ -8,7 +8,7 @@ from .player import Player
 class Map2d():
     def __init__(self, items: []):
         self.__grid = ItemGrid(items)
-        self.__players = { item.id: item for item in items if item is Player}
+        self.__players = {item.id: item for item in items if item is Player}
 
     @property
     def grid(self) -> Item:
@@ -17,6 +17,9 @@ class Map2d():
     def update(self):
         for player in self.__players:
             player.update()
+
+    def get_player(self, player_id: str):
+        return self.__players[player_id]
 
     @staticmethod
     def create_with_pattern(pattern: str):
@@ -29,26 +32,22 @@ class Map2d():
                 if type_id_hex == "  ":
                     continue
                 type_id = int(type_id_hex, 16)
-                if type_id in walls_solid_type_ids:
+                if type_id in type_ids_walls_solid:
                     items.append(Wall(block_x, block_y, type_id))
-                elif type_id in decorations_non_solid_type_ids:
+                elif type_id in type_ids_decorations_non_solid:
                     items.append(Decoration(block_x, block_y, type_id, False))
-                elif type_id in decorations_solid_type_ids:
+                elif type_id in type_ids_decorations_solid:
                     items.append(Decoration(block_x, block_y, type_id, True))
+                elif type_id in type_ids_player:
+                    items.append(Player.create(block_x, block_y, type_id))
         return Map2d(items)
 
-    @staticmethod
-    def create_with_file(file_path: str):
-        pattern: str
-        with open(file_path, "r") as file:
-            pattern = file.readlines()
-        return Map2d.create_with_pattern(pattern)
 
-
-decorations_non_solid_type_ids = [58, 62, 67,
-                                  72, 73, 77, 81, 92, 96, 99, 100, 101, 102]
-decorations_solid_type_ids = [57, 60, 61, 63, 65, 66, 68,
-                              69, 70, 71, 74, 75, 76, 80, 93, 94, 95, 97]
-walls_solid_type_ids = list(range(48))
-doors_horizontal_type_ids = [49]
-doors_vertical_type_ids = [50]
+type_ids_decorations_non_solid = [58, 62, 67,
+                             72, 73, 77, 81, 92, 96, 99, 100, 101, 102]
+type_ids_decorations_solid = [57, 60, 61, 63, 65, 66, 68,
+                         69, 70, 71, 74, 75, 76, 80, 93, 94, 95, 97]
+type_ids_walls_solid = list(range(48))
+type_ids_doors_horizontal = [49]
+type_ids_doors_vertical = [50]
+type_ids_player = [255]

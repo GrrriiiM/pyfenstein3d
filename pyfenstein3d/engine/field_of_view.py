@@ -1,3 +1,4 @@
+import math
 from .vector2d import Vector2d
 from .config import RAY_COUNT
 from .config import FOV_ANGLE
@@ -7,8 +8,8 @@ from .ray import Ray
 class FieldOfView():
     def __init__(self, angle: float):
         self.__total_angle_view = FOV_ANGLE
-        self.__ang_abs_min = self.__total_angle_view / -2
-        self.__ang_abs_max = self.__total_angle_view / 2
+        self.__ang_abs_min = (self.__total_angle_view * -0.5 + math.pi * 2) % (math.pi * 2)
+        self.__ang_abs_max = (self.__total_angle_view * 0.5 + math.pi * 2) % (math.pi * 2)
         self.__vector2d_ang_min = Vector2d(1, 0) ** self.__ang_abs_min
         self.__vector2d_ang_max = Vector2d(1, 0) ** self.__ang_abs_max
         self.__vector2d_ang = Vector2d(1, 0)

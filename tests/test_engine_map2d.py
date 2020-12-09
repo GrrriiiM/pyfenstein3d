@@ -1,9 +1,10 @@
-from pyfenstein3d_engine import Decoration
-from pyfenstein3d_engine import Wall
-from pyfenstein3d_engine import Map2d
+from pyfenstein3d.engine import Decoration
+from pyfenstein3d.engine import Wall
+from pyfenstein3d.engine import Map2d
+from pyfenstein3d.engine import Player
 
 def test_create_with_pattern():
-    pattern = "0B010F110A\n3C  3E  3C"
+    pattern = "0B010F110A\n3CFF3E  3C"
     map2d = Map2d.create_with_pattern(pattern)
     grid = map2d.grid
     assert isinstance(grid.get_item(0, 0), Wall)
@@ -20,7 +21,7 @@ def test_create_with_pattern():
     assert isinstance(grid.get_item(0, 1), Decoration)
     assert grid.get_item(0, 1).type_id == 60
     assert grid.get_item(0, 1).is_solid
-    assert grid.get_item(1, 1) is None
+    assert isinstance(grid.get_item(1, 1), Player)
     assert isinstance(grid.get_item(2, 1), Decoration)
     assert grid.get_item(2, 1).type_id == 62
     assert not grid.get_item(2, 1).is_solid

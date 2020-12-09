@@ -1,0 +1,17 @@
+import uuid
+from .person import Person
+from .field_of_view import FieldOfView
+
+
+class Player(Person):
+    def __init__(self, vector_x: float, vector_y: float, type_id: int, fov: FieldOfView, player_id: str):
+        super().__init__(vector_x, vector_y, type_id, fov)
+        self.player_id = player_id
+
+    @property
+    def fov(self):
+        return self.__fov
+
+    @staticmethod
+    def create(vector_x: float, vector_y: float, type_id: int):
+        return Player(vector_x, vector_y, type_id, FieldOfView(0), uuid.uuid4())

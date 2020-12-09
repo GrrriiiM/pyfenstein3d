@@ -8,3 +8,5 @@ from .map2d import Map2d
 from . import config
 from .item_grid import ItemGrid
 from .ray import Ray
+from .player import Player
+from .server import Server

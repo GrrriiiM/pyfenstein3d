@@ -1,4 +1,4 @@
-from pyfenstein3d_engine import Item
+from pyfenstein3d.engine import Item
 
 
 def test_init():

@@ -1,9 +1,9 @@
 import math
 from pytest import approx
-from pyfenstein3d_engine import Ray
-from pyfenstein3d_engine import Vector2d
-from pyfenstein3d_engine import Wall
-from pyfenstein3d_engine import ItemGrid
+from pyfenstein3d.engine import Ray
+from pyfenstein3d.engine import Vector2d
+from pyfenstein3d.engine import Wall
+from pyfenstein3d.engine import ItemGrid
 
 def test_init():
     v2d = Vector2d(10.2, 5.3)
