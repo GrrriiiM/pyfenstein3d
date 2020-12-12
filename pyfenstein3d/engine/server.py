@@ -66,13 +66,15 @@ class Server:
     def player_stop_turning_left(self, player_id: str):
         self.__map2d.get_player(player_id).is_turning_left = False
 
+    def update(self):
+        self.__map2d.update()
 
     def __loop(self):
         self.frame_count += 1
         loop_time = (1000 / FRAME_PER_SECONDS) / 1000
         while self.__game_is_running:
             start_time = time.time()
-            self.__map2d.update()
+            self.update()
             # print(start_time)
             end_time = time.time()
             delta_time = end_time - start_time

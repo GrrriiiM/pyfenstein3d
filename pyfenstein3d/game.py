@@ -1,107 +1,47 @@
 import os
 import math
-from pynput import keyboard
 import numpy as np
 from PIL import Image
+import win32console
+import win32con
+import time
+import keyboard
 from threading import Thread
 from engine import Server
 from engine import FieldOfView
 from engine.config import RAY_COUNT
+from engine.config import FRAME_PER_SECONDS
+from command import Command
+from screen import Screen
 
 
 class Game:
-    def __init__(self):
-        self.__walls_img = Image.open(
-            f'{os.path.dirname(__file__)}/imgs/walls.png')
-        self.__walls_img.load()
-        self.__walls_img = np.asarray(self.__walls_img, dtype="int32")
-        self.__server = Server()
+    def __init__(self, command: Command, screen: Screen, server: Server):
+        self.__command = command
+        self.__screen = screen
+        self.__server = server
+        
+        self.__console = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)
+        self.__console.SetConsoleActiveScreenBuffer()
         self.__server.load_map_file(
             f'{os.path.dirname(__file__)}/maps_pattern/map_1_level_1.txt')
-        self.__server.start_game()
-        self.__screen_h = 80
-        self.__screen_w = 150
+    
         self.__frame_count = 0
-        self.__listener = keyboard.Listener(
-            on_press=self.__on_press,
-            on_release=self.__on_release)
-        self.__listener.start()
-        self.__thread = Thread(target=self.__draw)
-        self.__thread.start()
 
-    def __draw(self):
+
+    def start(self):
+        self.__frame_count += 1
+        loop_time = (1000 / FRAME_PER_SECONDS) / 1000
         while True:
-            pixel_template = "\033[48;2;{};{};{}m  "
+            start_time = time.time()
+            self.__command.apply(self.__server)
+            self.__server.update()
             state = self.__server.get_player_state("123")
-            fov = get_fov(state["fov"])
-            screen = None
-            for i in range(RAY_COUNT):
-                ray = fov.rays[i]
-                if ray.wall is None:
-                    continue
-                img_h = math.floor((self.__screen_h * 5) / (ray.dist))
-                img_x = math.floor(
-                    (((ray.wall.type_id % 3) * 2) + ray.offset) * 64)
-                if ray.is_vertical:
-                    img_x += 64
-                img_y = math.floor(ray.wall.type_id / 3) * 64
-                wall_img = self.__walls_img[img_y:img_y + 64, img_x:img_x+1, :]
-                img_factor = img_h / self.__screen_h
-                img_margin = math.floor((self.__screen_h - img_h) / 2)
+            self.__screen.draw(self.__console, state["fov"])
+            end_time = time.time()
+            delta_time = end_time - start_time
+            if delta_time < loop_time:
+                time.sleep(loop_time - delta_time)
+                delta_time = loop_time
+            win32console.SetConsoleTitle(f'Pyfenstein3d - frame: {1/delta_time}')
 
-                pixels = []
-                for h in range(self.__screen_h):
-                    _h = math.floor((h / img_factor-img_margin));
-                    if h < img_margin or _h >= 64:
-                        pixels.append([0, 0, 0])
-                    else:
-                        pixel = wall_img[_h][0]
-                        pixels.append(pixel)
-
-                # pixels = np.asarray([pixels])
-                if screen is None:
-                    screen = [pixels]
-                else:
-                    screen.append(pixels)
-            if screen is not None:
-                print("\033[%d;%dH" % (0, 3))
-                for y in range(self.__screen_h):
-                    for x in range(self.__screen_w):
-                        pixel = screen[x][y]
-                        print(pixel_template.format(pixel[0], pixel[1], pixel[2]), end="")
-                    print()
-
-    def __on_press(self, key):
-        try:
-            if key.char == "w":
-                self.__server.player_start_moving_front("123")
-            elif key.char == "a":
-                self.__server.player_start_moving_left("123")
-            elif key.char == "s":
-                self.__server.player_start_moving_back("123")
-            elif key.char == "d":
-                self.__server.player_start_moving_right("123")
-        except:
-            pass
-            # print('special key {0} pressed'.format(
-            #     key))
-
-    def __on_release(self, key):
-        try:
-            if key.char == "w":
-                self.__server.player_stop_moving_front("123")
-            elif key.char == "a":
-                self.__server.player_stop_moving_left("123")
-            elif key.char == "s":
-                self.__server.player_stop_moving_back("123")
-            elif key.char == "d":
-                self.__server.player_stop_moving_right("123")
-            if key == keyboard.Key.esc:
-                # Stop listener
-                return False
-        except:
-            pass
-
-
-def get_fov(fov) -> FieldOfView:
-    return fov

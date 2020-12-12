@@ -1,3 +1,4 @@
+import math
 from .item import Item
 from .vector2d import Vector2d
 from .field_of_view import FieldOfView
@@ -47,6 +48,23 @@ class Person(Item):
             movement_count += 1
         if movement_x != 0 or movement_y != 0:
             self.move(Vector2d(movement_x / movement_count, movement_y / movement_count))
+
+    def adjust_collision(self, grid: ItemGrid):
+        diff_pos = self._vector2d - self.__last_pos
+        
+        item = grid.get_item(math.floor(self._vector2d.x + math.copysign(0.5, diff_pos.x)), math.floor(self.__last_pos.y))
+        if item is not None and item.is_solid:
+            if diff_pos.x > 0:
+                self._vector2d = Vector2d(item.block_x - 0.5, self._vector2d.y)
+            elif diff_pos.x < 0:
+                self._vector2d = Vector2d(item.block_x + 1.5, self._vector2d.y)
+
+        item = grid.get_item(math.floor(self.__last_pos.x), math.floor(self._vector2d.y + math.copysign(0.5, diff_pos.y)))
+        if item is not None and item.is_solid:
+            if diff_pos.y > 0:
+                self._vector2d = Vector2d(self._vector2d.x, item.block_y - 0.5)
+            elif diff_pos.y < 0:
+                self._vector2d = Vector2d(self._vector2d.x, item.block_y + 1.5)
 
     def cast(self, grid: ItemGrid):
         self.__fov.cast(self._vector2d, grid)

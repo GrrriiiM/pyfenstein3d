@@ -18,6 +18,7 @@ class Map2d():
         for player_id in self.__players:
             player = self.__players[player_id]
             player.update()
+            player.adjust_collision(self.__grid)
             player.cast(self.__grid)
 
     def get_player(self, player_id: str):
