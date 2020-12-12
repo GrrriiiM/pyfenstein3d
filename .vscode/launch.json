@@ -16,7 +16,7 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/pyfenstein3d",
-            "console": "integratedTerminal"
+            "console": "externalTerminal"
         }
     ]
 }

@@ -8,13 +8,13 @@ class Server:
     def __init__(self):
         self.__map2d: Map2d
         self.__game_is_running = False
-        self.__thread: Thread
+        self.__thread: Thread = None
         self.frame_count = 0
 
     def load_map_file(self, file_path:str):
         pattern: str
         with open(file_path, "r") as file:
-            pattern = file.readlines()
+            pattern = "".join(file.readlines())
         self.__map2d = Map2d.create_with_pattern(pattern)
 
     def start_game(self):
@@ -32,8 +32,10 @@ class Server:
 
     def stop_game(self):
         self.__game_is_running = False
+        if self.__thread is not None:
+            self.__thread.join()
 
-    def get_state(self, player_id: str):
+    def get_player_state(self, player_id: str):
         return {
             "fov": self.__map2d.get_player(player_id).fov
         }
@@ -68,13 +70,14 @@ class Server:
     def __loop(self):
         self.frame_count += 1
         loop_time = (1000 / FRAME_PER_SECONDS) / 1000
-        while True:
-            if not self.__game_is_running:
-                break
+        while self.__game_is_running:
             start_time = time.time()
-            # self.__map2d.update()
-            print(start_time)
+            self.__map2d.update()
+            # print(start_time)
             end_time = time.time()
             delta_time = end_time - start_time
+            # time.sleep(1)
             if delta_time < loop_time:
-                time.sleep(1)#loop_time - delta_time)
+                time.sleep(loop_time - delta_time)
+            else:
+                time.sleep(0.00000001)

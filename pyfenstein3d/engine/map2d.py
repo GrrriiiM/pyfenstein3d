@@ -8,15 +8,17 @@ from .player import Player
 class Map2d():
     def __init__(self, items: []):
         self.__grid = ItemGrid(items)
-        self.__players = {item.id: item for item in items if item is Player}
+        self.__players = {item.player_id: item for item in items if isinstance(item, Player)}
 
     @property
     def grid(self) -> Item:
         return self.__grid
 
     def update(self):
-        for player in self.__players:
+        for player_id in self.__players:
+            player = self.__players[player_id]
             player.update()
+            player.cast(self.__grid)
 
     def get_player(self, player_id: str):
         return self.__players[player_id]
@@ -29,7 +31,7 @@ class Map2d():
                           for n in range(0, len(s), 2)] for s in lines]
         for block_y, type_ids in enumerate(list_type_ids):
             for block_x, type_id_hex in enumerate(type_ids):
-                if type_id_hex == "  ":
+                if type_id_hex.strip() == "":
                     continue
                 type_id = int(type_id_hex, 16)
                 if type_id in type_ids_walls_solid:

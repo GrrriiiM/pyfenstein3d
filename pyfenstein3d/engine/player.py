@@ -8,10 +8,6 @@ class Player(Person):
         super().__init__(vector_x, vector_y, type_id, fov)
         self.player_id = player_id
 
-    @property
-    def fov(self):
-        return self.__fov
-
     @staticmethod
     def create(vector_x: float, vector_y: float, type_id: int):
-        return Player(vector_x, vector_y, type_id, FieldOfView(0), uuid.uuid4())
+        return Player(vector_x, vector_y, type_id, FieldOfView(0), "123")#uuid.uuid4())

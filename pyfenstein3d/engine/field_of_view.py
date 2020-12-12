@@ -3,6 +3,7 @@ from .vector2d import Vector2d
 from .config import RAY_COUNT
 from .config import FOV_ANGLE
 from .ray import Ray
+from .item_grid import ItemGrid
 
 
 class FieldOfView():
@@ -42,5 +43,6 @@ class FieldOfView():
         for ray in self.__rays:
             ray.rot(rad)
 
-    def cast(self, pos: Vector2d):
-        pass
+    def cast(self, pos: Vector2d, grid: ItemGrid):
+        for ray in self.__rays:
+            ray.cast_wall(pos, grid)

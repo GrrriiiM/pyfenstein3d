@@ -3,6 +3,7 @@ from .vector2d import Vector2d
 from .field_of_view import FieldOfView
 from .config import PERSON_TURN_VELOCITY
 from .config import PERSON_MOVEMENT_VELOCITY
+from .item_grid import ItemGrid
 
 class Person(Item):
     def __init__(self, vector_x: float, vector_y: float, type_id: int, fov: FieldOfView):
@@ -15,6 +16,10 @@ class Person(Item):
         self.is_moving_back = False
         self.is_moving_left = False
         self.is_moving_right = False
+
+    @property
+    def fov(self):
+        return self.__fov
 
     @property
     def fov_ang(self):
@@ -43,8 +48,8 @@ class Person(Item):
         if movement_x != 0 or movement_y != 0:
             self.move(Vector2d(movement_x / movement_count, movement_y / movement_count))
 
-    def cast(self):
-        self.__fov.cast(self._vector2d)
+    def cast(self, grid: ItemGrid):
+        self.__fov.cast(self._vector2d, grid)
 
     def move(self, movement: Vector2d):
         self.__last_pos = self._vector2d.copy()
