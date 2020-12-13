@@ -2,6 +2,7 @@ import math
 from .vector2d import Vector2d
 from .wall import Wall
 from .item_grid import ItemGrid
+from .item import Item
 
 
 class Ray():
@@ -14,6 +15,7 @@ class Ray():
         self.__rel_ang = angle
         self.__vector2d_ang = Vector2d(1, 0)
         self.__vector2d = Vector2d(0, 0)
+        self.__items = []
         self.rot(angle)
 
     @property
@@ -60,6 +62,10 @@ class Ray():
     def collided_vector2d(self) -> Vector2d:
         return self.__vector2d
 
+    @property
+    def items(self):
+        return tuple(self.__items)
+
     def cast_wall(self, pos: Vector2d, grid: ItemGrid):
         dist_x = self.get_dist_x(pos)
         dist_y = self.get_dist_y(pos)
@@ -68,7 +74,7 @@ class Ray():
         while 0 <= block_x < grid.max_x or 0 <= block_y < grid.max_y:
             if dist_y < dist_x:
                 block_y += self.dir_y
-                item = grid.get_item(block_x, block_y)
+                item = grid.get_item_by_block(block_x, block_y)
                 if isinstance(item, Wall):
                     self.__vector2d = Vector2d(
                         math.cos(self.ang) * dist_y,
@@ -83,7 +89,7 @@ class Ray():
                 dist_y += self.delta_dist_y
             else:
                 block_x += self.dir_x
-                item = grid.get_item(block_x, block_y)
+                item = grid.get_item_by_block(block_x, block_y)
                 if isinstance(item, Wall):
                     self.__vector2d = Vector2d(
                         math.cos(self.ang) * dist_x,
@@ -96,6 +102,23 @@ class Ray():
                     self.__wall_collided_is_vertical = True
                     return
                 dist_x += self.delta_dist_x
+
+    def cast_items(self, pos: Vector2d, items: []):
+        self.__items = []
+        if self.wall is not None:
+            for i in items:
+                item:Item = i
+                item_pos = (Vector2d(item.x, item.y) - pos)
+                ray_pos = (self.__vector2d - pos)
+                if item_pos.mag < ray_pos.mag:
+                    ray_pos = ray_pos ** -self.ang
+                    item_pos = item_pos ** -self.ang
+                    if ray_pos.x < item_pos.x:
+                        return
+                    if item_pos.y > 0.5 or item_pos.y < -0.5:
+                        return
+                    dist = math.sin(math.pi / 2 - self.__rel_ang) * item_pos.x
+                    self.__items.append(RayItem(item, dist, item_pos.y))
 
     def rot(self, rad):
         self.__vector2d_ang = self.__vector2d_ang ** rad
@@ -130,3 +153,21 @@ class Ray():
         if self.dir_y == -1:
             return abs((pos.y % 1) / math.sin(self.ang))
         return math.inf
+
+class RayItem():
+    def __init__(self, item, dist, offset):
+        self.__item = item
+        self.__dist = dist
+        self.__offset = offset
+
+    @property
+    def item(self):
+        return self.__item
+
+    @property
+    def dist(self):
+        return self.__dist
+
+    @property
+    def offset(self):
+        return self.__offset

@@ -8,13 +8,13 @@ class Item():
         self.__is_solid = is_solid
         self._set_x_y(vector_x, vector_y)
 
-    def get_x(self):
+    @property
+    def x(self):
         return self._vector2d.x
-    x = property(get_x)
 
-    def get_y(self):
+    @property
+    def y(self):
         return self._vector2d.y
-    y = property(get_y)
 
     @property
     def block_x(self):

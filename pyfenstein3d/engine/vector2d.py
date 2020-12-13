@@ -61,3 +61,7 @@ class Vector2d():
         if mag == 0:
             return self
         return Vector2d((self.__x / mag) * other, (self.__y / mag) * other)
+
+    @staticmethod
+    def create_with_ang(rad: float):
+        return Vector2d(math.cos(rad), math.sin(rad))

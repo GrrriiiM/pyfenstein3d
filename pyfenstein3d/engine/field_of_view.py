@@ -44,5 +44,10 @@ class FieldOfView():
             ray.rot(rad)
 
     def cast(self, pos: Vector2d, grid: ItemGrid):
+        items = grid.get_items_by_fov(pos,
+            self.__vector2d_ang,
+            self.__vector2d_ang_min,
+            self.__vector2d_ang_max)
         for ray in self.__rays:
             ray.cast_wall(pos, grid)
+            ray.cast_items(pos, items)

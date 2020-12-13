@@ -38,9 +38,9 @@ class Map2d():
                 if type_id in type_ids_walls_solid:
                     items.append(Wall(block_x, block_y, type_id))
                 elif type_id in type_ids_decorations_non_solid:
-                    items.append(Decoration(block_x, block_y, type_id, False))
+                    items.append(Decoration(block_x + 0.5, block_y + 0.5, type_id, False))
                 elif type_id in type_ids_decorations_solid:
-                    items.append(Decoration(block_x, block_y, type_id, True))
+                    items.append(Decoration(block_x + 0.5, block_y + 0.5, type_id, True))
                 elif type_id in type_ids_player:
                     items.append(Player.create(block_x, block_y, type_id))
         return Map2d(items)

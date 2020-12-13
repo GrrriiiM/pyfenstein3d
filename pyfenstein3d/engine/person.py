@@ -52,14 +52,14 @@ class Person(Item):
     def adjust_collision(self, grid: ItemGrid):
         diff_pos = self._vector2d - self.__last_pos
         
-        item = grid.get_item(math.floor(self._vector2d.x + math.copysign(0.5, diff_pos.x)), math.floor(self.__last_pos.y))
+        item = grid.get_item_by_block(math.floor(self._vector2d.x + math.copysign(0.5, diff_pos.x)), math.floor(self.__last_pos.y))
         if item is not None and item.is_solid:
             if diff_pos.x > 0:
                 self._vector2d = Vector2d(item.block_x - 0.5, self._vector2d.y)
             elif diff_pos.x < 0:
                 self._vector2d = Vector2d(item.block_x + 1.5, self._vector2d.y)
 
-        item = grid.get_item(math.floor(self.__last_pos.x), math.floor(self._vector2d.y + math.copysign(0.5, diff_pos.y)))
+        item = grid.get_item_by_block(math.floor(self.__last_pos.x), math.floor(self._vector2d.y + math.copysign(0.5, diff_pos.y)))
         if item is not None and item.is_solid:
             if diff_pos.y > 0:
                 self._vector2d = Vector2d(self._vector2d.x, item.block_y - 0.5)
