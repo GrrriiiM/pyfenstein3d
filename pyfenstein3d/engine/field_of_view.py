@@ -4,16 +4,18 @@ from .config import RAY_COUNT
 from .config import FOV_ANGLE
 from .ray import Ray
 from .item_grid import ItemGrid
+from .decoration import Decoration
+from .door import Door
 
 
 class FieldOfView():
     def __init__(self, angle: float):
-        self.__total_angle_view = FOV_ANGLE
-        self.__ang_abs_min = (self.__total_angle_view * -0.5 + math.pi * 2) % (math.pi * 2)
-        self.__ang_abs_max = (self.__total_angle_view * 0.5 + math.pi * 2) % (math.pi * 2)
+        self.__ang_abs_min = (FOV_ANGLE * -0.5 + math.pi * 2) % (math.pi * 2)
+        self.__ang_abs_max = (FOV_ANGLE * 0.5 + math.pi * 2) % (math.pi * 2)
         self.__vector2d_ang_min = Vector2d(1, 0) ** self.__ang_abs_min
         self.__vector2d_ang_max = Vector2d(1, 0) ** self.__ang_abs_max
         self.__vector2d_ang = Vector2d(1, 0)
+        self.__dist = 0
         ray_count = RAY_COUNT - RAY_COUNT % 2
         ray_angle = FOV_ANGLE / (RAY_COUNT - 1)
         self.__rays = [Ray((c * ray_angle) - (FOV_ANGLE / 2)) for c in range(ray_count)]
@@ -44,10 +46,20 @@ class FieldOfView():
             ray.rot(rad)
 
     def cast(self, pos: Vector2d, grid: ItemGrid):
-        items = grid.get_items_by_fov(pos,
-            self.__vector2d_ang,
-            self.__vector2d_ang_min,
-            self.__vector2d_ang_max)
+        
         for ray in self.__rays:
             ray.cast_wall(pos, grid)
+            if ray.dist > self.__dist:
+                self.__dist = ray.dist
+
+        dist = max([ray.dist for ray in self.__rays])
+        doors = grid.get_doors_by_fov(pos, self.ang, FOV_ANGLE, dist)
+        for ray in self.__rays:
+            ray.cast_doors(pos, doors)
+            if ray.dist > self.__dist:
+                self.__dist = ray.dist
+
+        dist = max([ray.dist for ray in self.__rays])
+        items = grid.get_items_by_fov(pos, self.ang, FOV_ANGLE, dist)
+        for ray in self.__rays:
             ray.cast_items(pos, items)

@@ -3,19 +3,22 @@ from .vector2d import Vector2d
 from .wall import Wall
 from .item_grid import ItemGrid
 from .item import Item
+from .door import Door
 
 
 class Ray():
     def __init__(self, angle: float):
         self.__dist_adjusted = 0
-        self.__wall_collided: Wall = None
-        self.__wall_collided_offset: 0
-        self.__wall_collided_is_vertical: False
-        self.__wall_collided_is_inverted: False
+        self.__dist = 0
+        self.__offset: 0
+        self.__is_vertical: False
+        self.__is_inverted: False
+        self.__type_id: int = None
         self.__rel_ang = angle
         self.__vector2d_ang = Vector2d(1, 0)
         self.__vector2d = Vector2d(0, 0)
         self.__items = []
+        self.__doors = []
         self.rot(angle)
 
     @property
@@ -39,24 +42,28 @@ class Ray():
         return self.__delta_dist_y
 
     @property
-    def wall(self):
-        return self.__wall_collided
+    def type_id(self):
+        return self.__type_id
 
     @property
     def offset(self):
-        return self.__wall_collided_offset
+        return self.__offset
 
     @property
     def is_vertical(self):
-        return self.__wall_collided_is_vertical
+        return self.__is_vertical
 
     @property
     def is_inverted(self):
-        return self.__wall_collided_is_inverted
+        return self.__is_inverted
+
+    @property
+    def dist_adjusted(self):
+        return self.__dist_adjusted
 
     @property
     def dist(self):
-        return self.__dist_adjusted
+        return self.__dist
 
     @property
     def collided_vector2d(self) -> Vector2d:
@@ -65,6 +72,10 @@ class Ray():
     @property
     def items(self):
         return tuple(self.__items)
+
+    @property
+    def doors(self):
+        return tuple(self.__doors)
 
     def cast_wall(self, pos: Vector2d, grid: ItemGrid):
         dist_x = self.get_dist_x(pos)
@@ -80,11 +91,19 @@ class Ray():
                         math.cos(self.ang) * dist_y,
                         math.sin(self.ang) * dist_y
                     ) + pos
-                    self.__dist_adjusted = abs(math.cos(self.__rel_ang) * dist_y)
-                    self.__wall_collided = item
-                    self.__wall_collided_is_inverted = pos.y > item.y
-                    self.__wall_collided_offset = self.__vector2d.x % 1
-                    self.__wall_collided_is_vertical = False
+                    self.__dist_adjusted = abs(
+                        math.cos(self.__rel_ang) * dist_y)
+                    self.__dist = abs(dist_y)
+                    self.__is_inverted = pos.y > item.y
+                    self.__offset = self.__vector2d.x % 1
+                    self.__is_vertical = False
+                    if self.__is_inverted and isinstance(grid.get_item_by_block(block_x, block_y + 1), Door):
+                        self.__type_id = 50
+                    elif not self.__is_inverted and isinstance(grid.get_item_by_block(block_x, block_y - 1), Door):
+                        self.__type_id = 50
+                    else:
+                        self.__type_id = item.type_id
+
                     return
                 dist_y += self.delta_dist_y
             else:
@@ -95,30 +114,81 @@ class Ray():
                         math.cos(self.ang) * dist_x,
                         math.sin(self.ang) * dist_x
                     ) + pos
-                    self.__dist_adjusted = abs(math.cos(self.__rel_ang) * dist_x)
-                    self.__wall_collided = item
-                    self.__wall_collided_is_inverted = pos.x > item.x
-                    self.__wall_collided_offset = self.__vector2d.y % 1
-                    self.__wall_collided_is_vertical = True
+                    self.__dist_adjusted = abs(
+                        math.cos(self.__rel_ang) * dist_x)
+                    self.__dist = abs(dist_x)
+                    self.__is_inverted = pos.x > item.x
+                    self.__offset = self.__vector2d.y % 1
+                    self.__is_vertical = True
+                    if self.__is_inverted and isinstance(grid.get_item_by_block(block_x + 1, block_y), Door):
+                        self.__type_id = 50
+                    elif not self.__is_inverted and isinstance(grid.get_item_by_block(block_x - 1, block_y), Door):
+                        self.__type_id = 50
+                    else:
+                        self.__type_id = item.type_id
                     return
                 dist_x += self.delta_dist_x
 
+    def cast_doors(self, pos: Vector2d, doors: []):
+        self.__doors = []
+        for door in doors:
+            if door.is_vertical:
+                is_inverted = math.pi * 0.5 <= self.ang <= math.pi * 1.5
+                if not is_inverted and  door.x > self.__vector2d.x:
+                    continue
+                if is_inverted and door.x < self.__vector2d.x:
+                    continue
+                x = door.x - pos.x;
+                y = math.tan(self.ang) * x;
+                v = Vector2d(x, y);
+                pos_y = pos.y + y;
+                if pos_y < door.y or pos_y > door.y + 1:
+                    continue
+                dist_adjusted = math.sin(math.pi / 2 - self.__rel_ang) * v.mag;
+                offset = (door.y - pos_y) % 1 #- Math.floor(door.y - pos_y);
+                self.__doors.append(RayDoor(dist_adjusted, offset, door.is_vertical))
+                if v.mag < self.__dist:
+                    self.__dist = v.mag
+                    self.__vector2d = v + pos
+                    self.__dist_adjusted = dist_adjusted
+            else:
+                is_inverted = math.pi <= self.ang <= math.pi * 2
+                if not is_inverted and door.y > self.__vector2d.y:
+                    continue
+                if is_inverted and door.y < self.__vector2d.y:
+                    continue
+                y = door.y - pos.y
+                x = y / math.tan(self.ang)
+                v = Vector2d(x, y)
+                pos_x = pos.x + x
+                if pos_x < door.x or pos_x > door.x + 1:
+                    continue
+                dist_adjusted = math.sin(math.pi / 2 - self.__rel_ang) * v.mag
+                offset = (door.x - pos_x) % 1
+                self.__doors.append(RayDoor(dist_adjusted, offset, door.is_vertical))
+                if v.mag < self.__dist:
+                    self.__dist = v.mag
+                    self.__vector2d = v + pos
+                    self.__dist_adjusted = dist_adjusted
+
     def cast_items(self, pos: Vector2d, items: []):
         self.__items = []
-        if self.wall is not None:
+        if self.type_id is not None:
             for i in items:
-                item:Item = i
+                item: Item = i
                 item_pos = (Vector2d(item.x, item.y) - pos)
                 ray_pos = (self.__vector2d - pos)
                 if item_pos.mag < ray_pos.mag:
                     ray_pos = ray_pos ** -self.ang
                     item_pos = item_pos ** -self.ang
                     if ray_pos.x < item_pos.x:
-                        return
+                        continue
                     if item_pos.y > 0.5 or item_pos.y < -0.5:
-                        return
+                        continue
                     dist = math.sin(math.pi / 2 - self.__rel_ang) * item_pos.x
-                    self.__items.append(RayItem(item, dist, item_pos.y))
+                    self.__items.append(RayItem(item.type_id, dist, item_pos.y))
+                    
+                
 
     def rot(self, rad):
         self.__vector2d_ang = self.__vector2d_ang ** rad
@@ -137,8 +207,10 @@ class Ray():
         else:
             self.__dir_y = 0
 
-        self.__delta_dist_x = abs(1 / math.cos(self.ang)) if math.cos(self.ang) != 0 else math.inf
-        self.__delta_dist_y = abs(1 / math.sin(self.ang)) if math.sin(self.ang) != 0 else math.inf
+        self.__delta_dist_x = abs(
+            1 / math.cos(self.ang)) if math.cos(self.ang) != 0 else math.inf
+        self.__delta_dist_y = abs(
+            1 / math.sin(self.ang)) if math.sin(self.ang) != 0 else math.inf
 
     def get_dist_x(self, pos: Vector2d):
         if self.dir_x == 1:
@@ -154,15 +226,16 @@ class Ray():
             return abs((pos.y % 1) / math.sin(self.ang))
         return math.inf
 
+
 class RayItem():
-    def __init__(self, item, dist, offset):
-        self.__item = item
+    def __init__(self, type_id, dist, offset):
+        self.__type_id = type_id
         self.__dist = dist
         self.__offset = offset
 
     @property
-    def item(self):
-        return self.__item
+    def type_id(self):
+        return self.__type_id
 
     @property
     def dist(self):
@@ -171,3 +244,26 @@ class RayItem():
     @property
     def offset(self):
         return self.__offset
+
+class RayDoor():
+    def __init__(self, dist, offset, is_vertical):
+        self.__type_id = 49
+        self.__dist = dist
+        self.__offset = offset
+        self.__is_vertical = is_vertical
+
+    @property
+    def type_id(self):
+        return self.__type_id
+
+    @property
+    def dist(self):
+        return self.__dist
+
+    @property
+    def offset(self):
+        return self.__offset
+
+    @property
+    def is_vertical(self):
+        return self.__is_vertical

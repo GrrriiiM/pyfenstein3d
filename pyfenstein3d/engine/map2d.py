@@ -3,6 +3,7 @@ from .wall import Wall
 from .decoration import Decoration
 from .item_grid import ItemGrid
 from .player import Player
+from .door import Door
 
 
 class Map2d():
@@ -41,16 +42,23 @@ class Map2d():
                     items.append(Decoration(block_x + 0.5, block_y + 0.5, type_id, False))
                 elif type_id in type_ids_decorations_solid:
                     items.append(Decoration(block_x + 0.5, block_y + 0.5, type_id, True))
+                elif type_id in type_ids_doors_horizontal:
+                    items.append(Door(block_x, block_y + 0.5, type_id, False))
+                elif type_id in type_ids_doors_vertical:
+                    items.append(Door(block_x + 0.5, block_y, type_id, True))
                 elif type_id in type_ids_player:
                     items.append(Player.create(block_x, block_y, type_id))
         return Map2d(items)
 
 
-type_ids_decorations_non_solid = [58, 62, 67,
-                             72, 73, 77, 81, 92, 96, 99, 100, 101, 102]
+
 type_ids_decorations_solid = [57, 60, 61, 63, 65, 66, 68,
                          69, 70, 71, 74, 75, 76, 80, 93, 94, 95, 97]
-type_ids_walls_solid = list(range(48))
-type_ids_doors_horizontal = [49]
-type_ids_doors_vertical = [50]
+# type_ids_decorations_non_solid = [58, 62, 67,
+#                              72, 73, 77, 81, 92, 96, 99, 100, 101, 102]
+type_ids_decorations_non_solid = [i for i in range(56,120) if i not in type_ids_decorations_solid]
+type_ids_walls_solid = list(range(48)) + [53, 54]
+
+type_ids_doors_horizontal = [50]
+type_ids_doors_vertical = [49]
 type_ids_player = [255]

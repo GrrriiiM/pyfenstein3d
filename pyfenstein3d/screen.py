@@ -27,7 +27,7 @@ class Screen:
         pixel_matrix = None
         for i in range(RAY_COUNT):
             ray = fov.rays[i]
-            if ray.wall is None:
+            if ray.type_id is None:
                 continue
             pixel_column = self.create_pixel_column(ray)
             if pixel_matrix is None:
@@ -47,15 +47,15 @@ class Screen:
             console.WriteConsole("\n".join(consoel_text))
 
     def create_pixel_column(self, ray: Ray):
-        pixel_column = [[30, 30, 30]] * math.floor(RAY_COUNT / 2)
-        pixel_column.extend([[100, 100, 100]] * math.ceil(RAY_COUNT / 2))
+        pixel_column = [[30, 30, 30]] * math.floor(self.__screen_h / 2)
+        pixel_column.extend([[100, 100, 100]] * math.ceil(self.__screen_h / 2))
         self.draw_pixel_column_wall(pixel_column, ray)
         self.draw_pixel_column_item(pixel_column, ray)
         return pixel_column
 
     def draw_pixel_column_wall(self, pixel_column, ray: Ray):
-        wall_img_column = self.get_image_wall_column(ray.wall.type_id, ray.offset, ray.is_vertical)
-        img_h = math.floor((self.__screen_h * 2) / (ray.dist + 0.0000000001))
+        wall_img_column = self.get_image_wall_column(ray.type_id, ray.offset, ray.is_vertical)
+        img_h = (self.__screen_h * 2) / (ray.dist_adjusted + 0.0000000001)
         img_factor = (self.__screen_h / img_h) / (self.__screen_h / self.__image_size)
         img_margin = math.floor(self.__screen_h / 2 - img_h/2)
         for pixel_h in range(self.__screen_h):
@@ -65,10 +65,15 @@ class Screen:
 
     def draw_pixel_column_item(self, pixel_column, ray: Ray):
         list_items = list(ray.items)
-        list_items.sort(key=lambda i: i.dist)
+        list_items.extend(list(ray.doors))
+        list_items.sort(key=lambda i: i.dist, reverse=True)
         for ray_item in list_items:
-            item_img_column = self.get_image_item_column(ray_item.item.type_id, ray_item.offset)
-            img_h = math.floor((self.__screen_h * 2) / (ray_item.dist + 0.0000000001))
+            item_img_column = None
+            if type(ray_item).__name__ == "RayDoor":
+                item_img_column = self.get_image_door_column(ray_item.offset, ray_item.is_vertical)
+            else:
+                item_img_column = self.get_image_item_column(ray_item.type_id, ray_item.offset)
+            img_h = (self.__screen_h * 2) / (ray_item.dist + 0.0000000001)
             img_factor = (self.__screen_h / img_h) / (self.__screen_h / self.__image_size)
             img_margin = math.floor(self.__screen_h / 2 - img_h/2)
             for pixel_h in range(self.__screen_h):
@@ -76,8 +81,8 @@ class Screen:
                 if self.__image_size > img_pixel_h >= 0:
                     if item_img_column[img_pixel_h].size > 0:
                         img_pixel = item_img_column[img_pixel_h][0]
-                        if img_pixel[3] != 0:
-                            pixel_column[pixel_h] = item_img_column[img_pixel_h][0]
+                        if len(img_pixel) < 4 or img_pixel[3] != 0:
+                            pixel_column[pixel_h] = img_pixel
 
 
     def get_image_wall_column(self, type_id, offset, is_vertical):
@@ -96,15 +101,19 @@ class Screen:
 
 
     def get_image_item_column(self, type_id, offset):
-        offset = math.floor(offset * self.__image_size)
+        offset = math.floor((offset + 0.5) * self.__image_size)
         img_wall = self.get_image_item(type_id)
         return img_wall[:, offset:offset+1]
 
     def get_image_item(self, type_id):
         type_id -= 56
-        img_x = type_id % 5 * self.__image_size + type_id % 5
+        img_x = (type_id % 5 * self.__image_size + type_id % 5)
         img_y = math.floor(type_id / 5) * self.__image_size + math.floor(type_id / 5)
         img = self.__items_img[img_y:img_y + self.__image_size, img_x:img_x+self.__image_size, :]
         return img
 
 
+    def get_image_door_column(self, offset, is_vertical):
+        offset = math.floor(offset * self.__image_size)
+        img_wall = self.get_image_wall(49, is_vertical)
+        return img_wall[:, offset:offset+1]

@@ -1,14 +1,14 @@
 import math
-from .item import Item
+from .block import Block
 from .vector2d import Vector2d
 from .field_of_view import FieldOfView
 from .config import PERSON_TURN_VELOCITY
 from .config import PERSON_MOVEMENT_VELOCITY
 from .item_grid import ItemGrid
 
-class Person(Item):
+class Person(Block):
     def __init__(self, vector_x: float, vector_y: float, type_id: int, fov: FieldOfView):
-        super().__init__(vector_x, vector_y, type_id, True)
+        super().__init__(vector_x, vector_y, type_id, True, True)
         self.__fov = fov
         self.__last_pos = self._vector2d.copy()
         self.is_turning_left = False
