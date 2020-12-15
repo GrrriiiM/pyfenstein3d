@@ -23,6 +23,7 @@ class Server:
             #     raise ValueError("Map2d")
             self.__game_is_running = True
             self.__thread = Thread(target=self.__loop)
+            self.__thread.setDaemon(True)
             self.__thread.start()
 
     # def __start_loop(self):
@@ -52,6 +53,8 @@ class Server:
         self.__map2d.get_player(player_id).is_turning_right = True
     def player_start_turning_left(self, player_id: str):
         self.__map2d.get_player(player_id).is_turning_left = True
+    def player_start_interacting(self, player_id: str):
+        self.__map2d.get_player(player_id).is_interacting = True
 
     def player_stop_moving_front(self, player_id: str):
         self.__map2d.get_player(player_id).is_moving_front = False
@@ -65,6 +68,8 @@ class Server:
         self.__map2d.get_player(player_id).is_turning_right = False
     def player_stop_turning_left(self, player_id: str):
         self.__map2d.get_player(player_id).is_turning_left = False
+    def player_stop_interacting(self, player_id: str):
+        self.__map2d.get_player(player_id).is_interacting = False
 
     def update(self):
         self.__map2d.update()

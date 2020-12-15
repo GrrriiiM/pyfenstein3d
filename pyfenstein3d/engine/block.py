@@ -7,7 +7,7 @@ class Block():
     def __init__(self, vector_x: float, vector_y: float, type_id: int, is_solid: bool=False, is_moveable: bool=False):
         self._vector2d = Vector2d(vector_x, vector_y)
         self.__type_id = type_id
-        self.__is_solid = is_solid
+        self._is_solid = is_solid
         self.__is_moveable = is_moveable
         self._set_x_y(vector_x, vector_y)
 
@@ -41,7 +41,7 @@ class Block():
 
     @property
     def is_solid(self):
-        return self.__is_solid
+        return self._is_solid
 
     @property
     def is_moveable(self):
@@ -70,3 +70,7 @@ class Block():
                 if fov_delta * -0.5 <= bound_ang <= fov_delta * 0.5:
                     return True
         return False
+
+    
+    def interacted(self):
+        pass

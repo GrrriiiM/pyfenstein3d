@@ -10,6 +10,7 @@ class Command:
         server.player_stop_moving_back("123")
         server.player_stop_moving_left("123")
         server.player_stop_moving_right("123")
+        server.player_stop_interacting("123")
             
         if keyboard.is_pressed("left"):
             server.player_start_turning_left("123")
@@ -23,3 +24,5 @@ class Command:
             server.player_start_moving_left("123")
         if keyboard.is_pressed("d"):
             server.player_start_moving_right("123")
+        if keyboard.is_pressed(" "):
+            server.player_start_interacting("123")

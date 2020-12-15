@@ -3,6 +3,7 @@ from .wall import Wall
 from .decoration import Decoration
 from .item_grid import ItemGrid
 from .player import Player
+from .person import Person
 from .door import Door
 
 
@@ -10,6 +11,8 @@ class Map2d():
     def __init__(self, items: []):
         self.__grid = ItemGrid(items)
         self.__players = {item.player_id: item for item in items if isinstance(item, Player)}
+        self.__persons = [item for item in items if isinstance(item, Person)]
+        self.__doors = [item for item in items if isinstance(item, Door)]
 
     @property
     def grid(self) -> Item:
@@ -18,9 +21,11 @@ class Map2d():
     def update(self):
         for player_id in self.__players:
             player = self.__players[player_id]
-            player.update()
+            player.update(self.__grid)
             player.adjust_collision(self.__grid)
             player.cast(self.__grid)
+        for door in self.__doors:
+            door.update(self.__persons)
 
     def get_player(self, player_id: str):
         return self.__players[player_id]

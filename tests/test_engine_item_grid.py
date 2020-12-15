@@ -11,7 +11,7 @@ def test_init():
     grid = ItemGrid([ item, decoration, decoration_solid, wall ])
     assert grid.max_x == 11
     assert grid.max_y == 24
-    assert grid.get_item_by_block(0, 0) == item
-    assert grid.get_item_by_block(5, 1) == decoration
-    assert grid.get_item_by_block(10, 15) == decoration_solid
-    assert grid.get_item_by_block(2, 23) == wall
+    assert grid.get_block(0, 0) == item
+    assert grid.get_block(5, 1) == decoration
+    assert grid.get_block(10, 15) == decoration_solid
+    assert grid.get_block(2, 23) == wall

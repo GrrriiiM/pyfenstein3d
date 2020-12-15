@@ -46,7 +46,7 @@ def test_cast_wall_1():
 
     wall1 = Wall(2, 3, 10)
     ray.cast_wall(pos, ItemGrid([wall1]))
-    assert ray.wall is wall1
+    assert ray.type_id == wall1.type_id
     assert not ray.is_vertical
     assert not ray.is_inverted
     assert ray.collided_vector2d.x == approx(2.69, abs=0.01)
@@ -54,9 +54,9 @@ def test_cast_wall_1():
     assert ray.dist_adjusted == approx(1.39, abs=0.01)
     assert ray.offset == approx(0.69, abs=0.01)
 
-    wall2 = Wall(7, 6, 10)
+    wall2 = Wall(7, 6, 20)
     ray.cast_wall(pos, ItemGrid([wall2]))
-    assert ray.wall is wall2
+    assert ray.type_id == wall2.type_id
     assert not ray.is_vertical
     assert not ray.is_inverted
     assert ray.collided_vector2d.x == approx(7.88, abs=0.01)
@@ -72,7 +72,7 @@ def test_cast_wall_2():
     wall1 = Wall(3, 1, 10)
 
     ray.cast_wall(pos, ItemGrid([wall1, wall]))
-    assert ray.wall is wall1
+    assert ray.type_id == wall1.type_id
     assert not ray.is_vertical
     assert ray.is_inverted
     assert ray.collided_vector2d.x == approx(3.71, abs=0.01)
@@ -82,7 +82,7 @@ def test_cast_wall_2():
 
     wall2 = Wall(1, 0, 10)
     ray.cast_wall(pos, ItemGrid([wall2, wall]))
-    assert ray.wall is wall2
+    assert ray.type_id == wall2.type_id
     assert not ray.is_vertical
     assert ray.is_inverted
     assert ray.collided_vector2d.x == approx(1.98, abs=0.01)
@@ -98,7 +98,7 @@ def test_cast_wall_3():
     wall1 = Wall(2, 2, 10)
 
     ray.cast_wall(pos, ItemGrid([wall1, wall]))
-    assert ray.wall is wall1
+    assert ray.type_id == wall1.type_id
     assert ray.is_vertical
     assert not ray.is_inverted
     assert ray.collided_vector2d.x == approx(2, abs=0.01)

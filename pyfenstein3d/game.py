@@ -32,6 +32,7 @@ class Game:
     def start(self):
         self.__frame_count += 1
         loop_time = (1000 / FRAME_PER_SECONDS) / 1000
+        # self.__server.start_game()
         while True:
             start_time = time.time()
             self.__command.apply(self.__server)

@@ -85,7 +85,7 @@ class Ray():
         while 0 <= block_x < grid.max_x or 0 <= block_y < grid.max_y:
             if dist_y < dist_x:
                 block_y += self.dir_y
-                item = grid.get_item_by_block(block_x, block_y)
+                item = grid.get_block(block_x, block_y)
                 if isinstance(item, Wall):
                     self.__vector2d = Vector2d(
                         math.cos(self.ang) * dist_y,
@@ -97,9 +97,9 @@ class Ray():
                     self.__is_inverted = pos.y > item.y
                     self.__offset = self.__vector2d.x % 1
                     self.__is_vertical = False
-                    if self.__is_inverted and isinstance(grid.get_item_by_block(block_x, block_y + 1), Door):
+                    if self.__is_inverted and isinstance(grid.get_block(block_x, block_y + 1), Door):
                         self.__type_id = 50
-                    elif not self.__is_inverted and isinstance(grid.get_item_by_block(block_x, block_y - 1), Door):
+                    elif not self.__is_inverted and isinstance(grid.get_block(block_x, block_y - 1), Door):
                         self.__type_id = 50
                     else:
                         self.__type_id = item.type_id
@@ -108,7 +108,7 @@ class Ray():
                 dist_y += self.delta_dist_y
             else:
                 block_x += self.dir_x
-                item = grid.get_item_by_block(block_x, block_y)
+                item = grid.get_block(block_x, block_y)
                 if isinstance(item, Wall):
                     self.__vector2d = Vector2d(
                         math.cos(self.ang) * dist_x,
@@ -120,9 +120,9 @@ class Ray():
                     self.__is_inverted = pos.x > item.x
                     self.__offset = self.__vector2d.y % 1
                     self.__is_vertical = True
-                    if self.__is_inverted and isinstance(grid.get_item_by_block(block_x + 1, block_y), Door):
+                    if self.__is_inverted and isinstance(grid.get_block(block_x + 1, block_y), Door):
                         self.__type_id = 50
-                    elif not self.__is_inverted and isinstance(grid.get_item_by_block(block_x - 1, block_y), Door):
+                    elif not self.__is_inverted and isinstance(grid.get_block(block_x - 1, block_y), Door):
                         self.__type_id = 50
                     else:
                         self.__type_id = item.type_id

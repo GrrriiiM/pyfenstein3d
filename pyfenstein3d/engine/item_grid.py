@@ -25,7 +25,9 @@ class ItemGrid():
             if not block.is_moveable:
                 self.__grid[block.block_x, block.block_y] = block
 
-    def get_item_by_block(self, block_x, block_y) -> Item:
+    def get_block(self, block_x, block_y) -> Item:
+        block_x = math.floor(block_x)
+        block_y = math.floor(block_y)
         if block_x < self.max_x and block_y < self.max_y:
             return self.__grid[block_x, block_y]
         return None
@@ -55,49 +57,6 @@ class ItemGrid():
 
     def get_items_by_fov(self, pos: Vector2d, fov_ang: float, fov_delta: float, dist: float):
         return self.get_blocks_by_fov(pos, fov_ang, fov_delta, dist, Item)
-
-    # def get_blocks_by_fov(self, pos: Vector2d, fov_ang: float, fov_delta: float):
-    #     grid = self.__grid
-    #     # if ang_min.x > 0 and ang_max.x > 0:
-    #     #     grid = grid[math.floor(pos.x):, :]
-    #     # elif ang_min.x < 0 and ang_max.x < 0:
-    #     #     grid = grid[:math.floor(pos.x), :]
-    #     # if ang_min.y > 0 and ang_max.y > 0:
-    #     #     grid = grid[:, math.floor(pos.y):]
-    #     # elif ang_min.y < 0 and ang_max.y < 0:
-    #     #     grid = grid[:, :math.floor(pos.y)]
-
-    #     # items = []
-    #     grid_items = [item for line in grid for item in line
-    #                   if isinstance(item, (Item, Door))]
-
-    #     # ang_delta = ((ang_max.ang - ang_min.ang) + math.pi * 2) % (math.pi * 2)
-    #     # for grid_item in grid_items:
-    #     #     grid_item_vector = (
-    #     #         Vector2d(grid_item.x, grid_item.y) - pos) ** - ang.ang
-    #     #     grid_item_ang_min = grid_item_vector.ang
-    #     #     grid_item_ang_max = (grid_item_vector + Vector2d(0, 1)).ang
-    #     #     if grid_item_ang_max > math.pi:
-    #     #         grid_item_ang_max -= math.pi * 2
-    #     #     if grid_item_ang_min > math.pi:
-    #     #         grid_item_ang_min -= math.pi * 2
-    #     #     if grid_item_ang_max >= ang_delta * -0.5 and grid_item_ang_min <= ang_delta * 0.5:
-    #     #         items.append(grid_item)
-
-    #     return [block for block in grid_items if block.is_in_fov(pos, fov_ang, fov_delta)]
-
-    #     #     let pos = this.pos.copy();
-    #     #     pos.sub(view.person.pos);
-    #     #     pos.rotate(-view.angle);
-    #     #     if (pos.x <= 0) return false;
-    #     #     let itemAngleMin = pos.ang;
-    #     #     pos.y += 1;
-    #     #     let itemAngleMax = pos.ang;
-    #     #     if (itemAngleMin <= view.angleTotal * 0.5 && view.angleTotal * -0.5 <= itemAngleMax) {
-    #     #         return true;
-    #     #     } else {
-    #     #         return false;
-    #     #     }
 
     @property
     def max_x(self):
