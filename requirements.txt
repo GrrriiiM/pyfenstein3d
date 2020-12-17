@@ -1,2 +1,3 @@
 numpy==1.19.3
 keyboard==0.13.5
+Pillow==8.0.1

@@ -7,8 +7,8 @@ from screen import Screen
 if __name__ == "__main__":
     os.system("cls")
     print("AJUSTE AS CONFIGURACOES")
-    print("FONTE: CONSOLAS 5px")
-    print("LARGURA: 300")
+    print("FONTE: CONSOLAS 10px")
+    print("LARGURA: 200")
     print("ALTURA: 50")
     input()
     command = Command()
