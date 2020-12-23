@@ -1,10 +1,9 @@
-import os
-from game import Game
-from engine import Server
-from command import Command
-from screen import Screen
-
 if __name__ == "__main__":
+    import os
+    from .engine import Server
+    from .game import Command
+    from .game import Screen
+    from .game import Game
     os.system("cls")
     print("AJUSTE AS CONFIGURACOES")
     print("FONTE: CONSOLAS 10px")

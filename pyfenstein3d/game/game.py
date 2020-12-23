@@ -7,12 +7,12 @@ import win32con
 import time
 import keyboard
 from threading import Thread
-from engine import Server
-from engine import FieldOfView
-from engine.config import RAY_COUNT
-from engine.config import FRAME_PER_SECONDS
-from command import Command
-from screen import Screen
+from ..engine import Server
+from ..engine import FieldOfView
+from ..engine.config import RAY_COUNT
+from ..engine.config import FRAME_PER_SECONDS
+from .command import Command
+from .screen import Screen
 
 
 class Game:
@@ -24,19 +24,20 @@ class Game:
         self.__console = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)
         self.__console.SetConsoleActiveScreenBuffer()
         self.__server.load_map_file(
-            f'{os.path.dirname(__file__)}/maps_pattern/map_1_level_1.txt')
+            f'{os.path.dirname(__file__)}/../maps_pattern/map_1_level_1.txt')
     
         self.__frame_count = 0
 
 
     def start(self):
         self.__frame_count += 1
-        loop_time = (1000 / FRAME_PER_SECONDS) / 1000
+        loop_time = (1 / FRAME_PER_SECONDS)
         # self.__server.start_game()
+        delta_time = loop_time
         while True:
             start_time = time.time()
             self.__command.apply(self.__server)
-            self.__server.update()
+            self.__server.update(loop_time)
             state = self.__server.get_player_state("123")
             self.__screen.draw(self.__console, state["fov"])
             end_time = time.time()

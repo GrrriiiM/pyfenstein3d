@@ -12,10 +12,10 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: main",
+            "name": "Python: debug",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/pyfenstein3d",
+            "program": "${workspaceFolder}/debug.py",
             "console": "externalTerminal"
         }
     ]

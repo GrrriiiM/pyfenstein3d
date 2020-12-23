@@ -18,14 +18,14 @@ class Map2d():
     def grid(self) -> Item:
         return self.__grid
 
-    def update(self):
+    def update(self, delta_time: float):
         for player_id in self.__players:
             player = self.__players[player_id]
             player.update(self.__grid)
             player.adjust_collision(self.__grid)
             player.cast(self.__grid)
         for door in self.__doors:
-            door.update(self.__persons)
+            door.update(delta_time, self.__persons)
 
     def get_player(self, player_id: str):
         return self.__players[player_id]

@@ -1,5 +1,5 @@
 import keyboard
-from engine import Server
+from ..engine import Server
 
 class Command:
 

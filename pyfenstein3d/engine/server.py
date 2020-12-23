@@ -10,6 +10,7 @@ class Server:
         self.__game_is_running = False
         self.__thread: Thread = None
         self.frame_count = 0
+        self.__delta_time = 1 / FRAME_PER_SECONDS
 
     def load_map_file(self, file_path:str):
         pattern: str
@@ -71,20 +72,22 @@ class Server:
     def player_stop_interacting(self, player_id: str):
         self.__map2d.get_player(player_id).is_interacting = False
 
-    def update(self):
-        self.__map2d.update()
+    def update(self, delta_time):
+        self.__delta_time = delta_time
+        self.__map2d.update(self.__delta_time)
 
     def __loop(self):
         self.frame_count += 1
         loop_time = (1000 / FRAME_PER_SECONDS) / 1000
         while self.__game_is_running:
             start_time = time.time()
-            self.update()
+            self.update(self.__delta_time)
             # print(start_time)
             end_time = time.time()
-            delta_time = end_time - start_time
+            self.__delta_time = end_time - start_time
             # time.sleep(1)
-            if delta_time < loop_time:
-                time.sleep(loop_time - delta_time)
+            if self.__delta_time < loop_time:
+                self
+                time.sleep(loop_time - self.__delta_time)
             else:
                 time.sleep(0.00000001)

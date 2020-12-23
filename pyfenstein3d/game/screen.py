@@ -2,19 +2,19 @@ import os
 import math
 import numpy as np
 from PIL import Image
-from engine import FieldOfView
-from engine import Ray
-from engine.config import RAY_COUNT
+from ..engine import FieldOfView
+from ..engine import Ray
+from ..engine.config import RAY_COUNT
 
 class Screen:
     def __init__(self):
         self.__walls_img = Image.open(
-            f'{os.path.dirname(__file__)}/imgs/walls.png')
+            f'{os.path.dirname(__file__)}/../imgs/walls.png')
         
         self.__walls_img.load()
         self.__walls_img = np.asarray(self.__walls_img, dtype="int32")
         self.__items_img = Image.open(
-            f'{os.path.dirname(__file__)}/imgs/items.png')
+            f'{os.path.dirname(__file__)}/../imgs/items.png')
         self.__items_img.load()
         self.__items_img = np.asarray(self.__items_img, dtype="int32")
         self.__screen_w = RAY_COUNT
