@@ -21,7 +21,7 @@ class Map2d():
     def update(self, delta_time: float):
         for player_id in self.__players:
             player = self.__players[player_id]
-            player.update(self.__grid)
+            player.update(delta_time, self.__grid)
             player.adjust_collision(self.__grid)
             player.cast(self.__grid)
         for door in self.__doors:

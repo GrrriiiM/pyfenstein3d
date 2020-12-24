@@ -34,7 +34,8 @@ class Game:
         loop_time = (1 / FRAME_PER_SECONDS)
         # self.__server.start_game()
         delta_time = loop_time
-        while True:
+        self.__screen.draw_hud(self.__console)
+        while 1:
             start_time = time.time()
             self.__command.apply(self.__server)
             self.__server.update(loop_time)

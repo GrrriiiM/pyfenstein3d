@@ -17,8 +17,17 @@ class Screen:
             f'{os.path.dirname(__file__)}/../imgs/items.png')
         self.__items_img.load()
         self.__items_img = np.asarray(self.__items_img, dtype="int32")
+        self.__hud_img = Image.open(
+            f'{os.path.dirname(__file__)}/../imgs/hud.png')
+        self.__hud_img.load()
+        self.__hud_img = np.asarray(self.__hud_img, dtype="int32")
+        self.__weapons_img = Image.open(
+            f'{os.path.dirname(__file__)}/../imgs/weapons.png')
+        self.__weapons_img.load()
+        self.__weapons_img = np.asarray(self.__weapons_img, dtype="int32")
         self.__screen_w = RAY_COUNT
         self.__screen_h = math.floor(RAY_COUNT * 0.5)
+        self.__hud_h = math.floor(RAY_COUNT / 8)
         self.__image_size = 64
         self.__pixel_template = "\033[48;2;{};{};{}m  "
 
@@ -35,16 +44,17 @@ class Screen:
             else:
                 pixel_matrix.append(pixel_column)
         if pixel_matrix is not None:
+            self.draw_weapon(pixel_matrix)
             console.WriteConsole("\033[0;0H")
-            consoel_text = []
+            console_text = []
             for pixel_h in range(self.__screen_h):
                 console_line = []
                 for pixel_w in range(self.__screen_w):
                     pixel = pixel_matrix[pixel_w][pixel_h]
                     console_pixel = self.__pixel_template.format(pixel[0], pixel[1], pixel[2])
                     console_line.append(console_pixel)
-                consoel_text.append("".join(console_line))
-            console.WriteConsole("\n".join(consoel_text))
+                console_text.append("".join(console_line))
+            console.WriteConsole("\n".join(console_text))
 
     def create_pixel_column(self, ray: Ray):
         pixel_column = [[30, 30, 30]] * math.floor(self.__screen_h / 2)
@@ -117,3 +127,38 @@ class Screen:
         offset = math.floor(offset * self.__image_size)
         img_wall = self.get_image_wall(49, is_vertical)
         return img_wall[:, offset:offset+1]
+
+    def draw_hud(self, console):
+        console.WriteConsole(f"\033[{self.__screen_h};0H")
+        pixel_matrix = self.get_image_hud()
+        img_h = 40
+        img_factor = img_h / (RAY_COUNT / 8)
+        console_text = []
+        for pixel_h in range(self.__hud_h):
+            console_line = []
+            for pixel_w in range(self.__screen_w):
+                pixel = pixel_matrix[math.floor(pixel_h * img_factor)][math.floor(pixel_w * img_factor)]
+                console_pixel = self.__pixel_template.format(pixel[0], pixel[1], pixel[2])
+                console_line.append(console_pixel)
+            console_text.append("".join(console_line))
+        console.WriteConsole("\n".join(console_text))
+
+
+    def get_image_hud(self):
+        return self.__hud_img[:40, :, :]
+
+
+    def draw_weapon(self, pixel_matrix):
+        img_matrix = self.get_image_weapon(0, 0)
+        img_size = math.floor(self.__image_size * (self.__screen_w / 320)) * 2
+        img_factor = 64 / img_size
+        img_x = math.floor((self.__screen_w / 2) - (img_size / 2))
+        img_y = self.__screen_h - img_size
+        for pixel_h in range(img_size):
+            for pixel_w in range(img_size):
+                img_pixel = img_matrix[math.floor(pixel_h * img_factor)][math.floor(pixel_w * img_factor)]
+                if img_pixel.size > 0 and (len(img_pixel) < 4 or img_pixel[3] != 0):
+                    pixel_matrix[img_x + pixel_w][img_y + pixel_h] = img_pixel
+
+    def get_image_weapon(self, type_id, state):
+        return self.__weapons_img[self.__image_size:self.__image_size * 2, :self.__image_size, :]

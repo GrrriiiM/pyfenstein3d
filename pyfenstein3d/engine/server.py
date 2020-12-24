@@ -78,16 +78,15 @@ class Server:
 
     def __loop(self):
         self.frame_count += 1
-        loop_time = (1000 / FRAME_PER_SECONDS) / 1000
+        loop_time = 1 / FRAME_PER_SECONDS
         while self.__game_is_running:
             start_time = time.time()
-            self.update(self.__delta_time)
+            self.update(loop_time)
             # print(start_time)
             end_time = time.time()
             self.__delta_time = end_time - start_time
             # time.sleep(1)
             if self.__delta_time < loop_time:
-                self
                 time.sleep(loop_time - self.__delta_time)
             else:
                 time.sleep(0.00000001)

@@ -27,25 +27,25 @@ class Person(Block):
     def fov_ang(self):
         return self.__fov.ang
 
-    def update(self, grid: ItemGrid):
+    def update(self, delta_time: float, grid: ItemGrid):
         if self.is_turning_left:
-            self.turn(-PERSON_TURN_VELOCITY)
+            self.turn(-PERSON_TURN_VELOCITY * delta_time)
         if self.is_turning_right:
-            self.turn(PERSON_TURN_VELOCITY)
+            self.turn(PERSON_TURN_VELOCITY * delta_time)
         movement_x = 0
         movement_y = 0
         movement_count = 0
         if self.is_moving_front:
-            movement_x += PERSON_MOVEMENT_VELOCITY
+            movement_x += PERSON_MOVEMENT_VELOCITY * delta_time
             movement_count += 1
         if self.is_moving_back:
-            movement_x -= PERSON_MOVEMENT_VELOCITY
+            movement_x -= PERSON_MOVEMENT_VELOCITY * delta_time
             movement_count += 1
         if self.is_moving_right:
-            movement_y += PERSON_MOVEMENT_VELOCITY
+            movement_y += PERSON_MOVEMENT_VELOCITY * delta_time
             movement_count += 1
         if self.is_moving_left:
-            movement_y -= PERSON_MOVEMENT_VELOCITY
+            movement_y -= PERSON_MOVEMENT_VELOCITY * delta_time
             movement_count += 1
         if movement_x != 0 or movement_y != 0:
             self.move(Vector2d(movement_x / movement_count, movement_y / movement_count))
