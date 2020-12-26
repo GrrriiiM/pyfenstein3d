@@ -16,7 +16,7 @@ class Animation:
     def animate(self, delta_time: float):
         if self.__is_animating:
             self.__time += delta_time
-            self.__factor = interp(self.__time, [0, self.__total_time], [0, 1])
+            self.__factor =  self.__time / self.__total_time
             if self.__on_animate is not None:
                 self.__on_animate(self.__factor)
             if self.__factor >= 1:

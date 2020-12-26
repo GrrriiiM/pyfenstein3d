@@ -4,6 +4,7 @@ if __name__ == "__main__":
     from .game import Command
     from .game import Screen
     from .game import Game
+    from .game import Image
     os.system("cls")
     print("AJUSTE AS CONFIGURACOES")
     print("FONTE: CONSOLAS 10px")
@@ -11,7 +12,8 @@ if __name__ == "__main__":
     print("ALTURA: 50")
     input()
     command = Command()
-    screen = Screen()
+    image = Image()
+    screen = Screen(image)
     server = Server()
     game = Game(command, screen, server)
     game.start()
