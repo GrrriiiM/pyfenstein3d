@@ -19,7 +19,7 @@ python -m pip install git+https://github.com/GrrriiiM/pyfenstein3d.git@master#eg
 Devido a performance do prompt cmd, o pyfenstein3d roda em uma resolução de 100x62
 Para ter uma visualização ideal do jogo realize as seguintes instruções
 
-### 1. Clique na barra superior do prompt com o botão direito e selecione __Propriedades__
+#### 1. Clique na barra superior do prompt com o botão direito e selecione __Propriedades__
 ![](docs/readme_image1.jpg)
 
 #### 2. Clique na aba __Fonte__
@@ -37,6 +37,13 @@ Para ter uma visualização ideal do jogo realize as seguintes instruções
 #### 4. Altere o __Tamanho da Janela__ para __largura 200__ e __altura 62__
 ![](docs/readme_image6.jpg)
 
+
+## Execução
+Após instalação e configuração do prompt, execute o modulo com o comando abaixo
+```shel
+python -m pyfenstein3d
+```
+
 ## Commandos
 |Comando            | Tecla            |
 |-------------------|------------------|
@@ -47,6 +54,3 @@ Para ter uma visualização ideal do jogo realize as seguintes instruções
 |Virar para esquerda| __Seta esquerda__|
 |Virar para direita | __Seta direta__  |
 |Abrir porta        | __Espaço__       |
-
-## Execução
-Para iniciar a aplicação
