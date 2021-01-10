@@ -18,8 +18,8 @@ jobs:
       - name: Instalar dependências
         run: |
           python -m pip install --upgrade pip
-          pip install pytest-cov
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -r requirements.txt
+          pip install -r requirements-test.txt
       - name: Executar testes
         run: |
           python -m pytest --cov --cov-report xml
