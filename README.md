@@ -1,6 +1,10 @@
 # pyfenstein3d
 Projeto realizado em python com intuido educacional de tentar reproduzir o jogo [Wolfenstein 3d](https://pt.wikipedia.org/wiki/Wolfenstein_3D) no prompt de comando.
 
+Utilizando a fonte __Consolas__, é possivel considerar que cada __2 caracteres__ representem __1 pixel__. E assim "_renderizar_" qualquer imagem no prompt.
+
+Para manter o número de quadros por segundo estável, o projeto foi desenvolvido considerando uma renderização de 100x62
+
 ![](docs/readme_gif1.gif)
 
 ## Instalação
@@ -57,12 +61,14 @@ python -m pyfenstein3d
 |Abrir porta        | __Espaço__       |
 
 ## Desenvolvimento
+- [X] "Renderizar Pixel"
 - [x] Raycasting 2d
 - [X] Raycasting "3d"
 - [X] Textura parede
 - [X] Sprites
 - [X] Portas
 - [X] Arma
+- [ ] Interação itens
 - [ ] Tiro
 - [ ] Inimigo
 - [ ] Inteligencia artificial
