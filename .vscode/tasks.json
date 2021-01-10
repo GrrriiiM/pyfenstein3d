@@ -23,6 +23,8 @@
                 "--html=./tests_coverage/report.html",
                 "--cov-report",
                 "html",
+                "--cov-report",
+                "xml",
                 "--cov=pyfenstein3d",
                 "tests/",
                 "&",
