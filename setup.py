@@ -7,9 +7,13 @@ with open('README.md') as f:
 with open('LICENSE') as f:
     license = f.read()
 
+
+with open("requirements.txt") as f:
+    install_requires = f.read().splitlines()
+
 setuptools.setup(name='pyfenstein3d',
                  version='1.0',
-                 description='Projeto de estudo reproduzindo jogo Wolfenstein3d utilziando técnica Raycasting',
+                 description='Projeto realizado em python com intuido educacional de tentar reproduzir o jogo Wolfenstein 3d no prompt de comando.',
                  long_description=readme,
                  license=license,
                  author='Allison GrrriiiM',
@@ -17,5 +21,6 @@ setuptools.setup(name='pyfenstein3d',
                  url='https://github.com/GrrriiiM/pyfenstein3d',
                  packages=setuptools.find_packages(),
                  package_data={'pyfenstein3d': ['imgs/*.*', 'maps_pattern/*.*']},
+                 install_requires=install_requires,
                  include_package_data=True,
                  )
