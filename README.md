@@ -1,6 +1,7 @@
 # pyfenstein3d
 ![Codecov](https://img.shields.io/codecov/c/github/grrriiim/pyfenstein3d?color=green&label=coverage&logo=python&token=dc139c33-e7e9-4e28-89bf-68c9e9913c02)
 
+
 Projeto realizado em python com intuido educacional de tentar reproduzir o jogo [Wolfenstein 3d](https://pt.wikipedia.org/wiki/Wolfenstein_3D) no prompt de comando.
 
 Utilizando a fonte __Consolas__, é possivel considerar que cada __2 caracteres__ representem __1 pixel__. E assim "_renderizar_" qualquer imagem no prompt utilizando [ANSI escap code](https://en.wikipedia.org/wiki/ANSI_escape_code) para dar cor.
