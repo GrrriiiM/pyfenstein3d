@@ -14,27 +14,27 @@ def test_init(mocker: MockerFixture):
     assert person.y == 2
     assert person.fov_ang == math.pi
     person.is_moving_back = True
-    person.update()
+    person.update(1, None)
     assert person.x == pytest.approx(2)
     assert person.y == pytest.approx(2)
     assert person.fov_ang ==  pytest.approx(math.pi)
     person.is_moving_right = True
-    person.update()
+    person.update(1, None)
     assert person.x == pytest.approx(2.5)
     assert person.y == pytest.approx(1.5)
     assert person.fov_ang ==  pytest.approx(math.pi)
-    person.update()
+    person.update(1, None)
     assert person.x == pytest.approx(3)
     assert person.y == pytest.approx(1)
     assert person.fov_ang ==  pytest.approx(math.pi)
     person.is_turning_left = True
-    person.update()
+    person.update(1, None)
     assert person.x == pytest.approx(2.5)
     assert person.y == pytest.approx(0.5)
     assert person.fov_ang ==  pytest.approx(math.pi/2)
     person.is_moving_front = True
     person.is_moving_right = False
-    person.update()
+    person.update(1, None)
     assert person.x == pytest.approx(2.5)
     assert person.y == pytest.approx(0.5)
     assert person.fov_ang ==  pytest.approx(0)

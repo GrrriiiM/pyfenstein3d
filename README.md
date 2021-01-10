@@ -45,7 +45,7 @@ Após instalação e configuração do prompt, execute o modulo com o comando ab
 python -m pyfenstein3d
 ```
 
-## Commandos
+## Comandos
 |Comando            | Tecla            |
 |-------------------|------------------|
 |Andar para frente  | __W__            |
@@ -55,3 +55,14 @@ python -m pyfenstein3d
 |Virar para esquerda| __Seta esquerda__|
 |Virar para direita | __Seta direta__  |
 |Abrir porta        | __Espaço__       |
+
+## Desenvolvimento
+- [x] Raycasting 2d
+- [X] Raycasting "3d"
+- [X] Textura parede
+- [X] Sprites
+- [X] Portas
+- [X] Arma
+- [ ] Tiro
+- [ ] Inimigo
+- [ ] Inteligencia artificial
