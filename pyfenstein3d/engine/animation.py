@@ -9,6 +9,22 @@ class Animation:
         self.__factor = 0
         self.__is_animating = False
 
+    @property
+    def total_time(self):
+        return self.__total_time;
+
+    @property
+    def time(self):
+        return self.__time;
+
+    @property
+    def is_animating(self):
+        return self.__is_animating;
+
+    @property
+    def factor(self):
+        return self.__factor;
+
     def start(self):
         self.__time = 0
         self.__is_animating = True
