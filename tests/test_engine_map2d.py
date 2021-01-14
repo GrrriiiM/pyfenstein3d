@@ -1,7 +1,7 @@
-from pyfenstein3d.engine import Decoration
-from pyfenstein3d.engine import Wall
-from pyfenstein3d.engine import Map2d
-from pyfenstein3d.engine import Player
+from engine import Decoration
+from engine import Wall
+from engine import Map2d
+from engine import Player
 
 def test_create_with_pattern():
     pattern = "0B010F110A\n3CFF3E  3C"

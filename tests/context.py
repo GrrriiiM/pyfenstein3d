@@ -1,5 +1,5 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-import pyfenstein3d_engine
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+print(path)
+sys.path.insert(0, path)

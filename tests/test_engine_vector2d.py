@@ -1,5 +1,5 @@
 import math
-from pyfenstein3d.engine import Vector2d
+from engine import Vector2d
 
 def test_init():
     vector = Vector2d(10, 0)

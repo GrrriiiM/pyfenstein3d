@@ -1,10 +1,11 @@
 import math
 from pytest_mock import MockerFixture
-from pyfenstein3d.engine import FieldOfView
+from engine import FieldOfView
 
 def test_init(mocker: MockerFixture):
-    mocker.patch("pyfenstein3d.engine.field_of_view.RAY_COUNT", 4)
-    mocker.patch("pyfenstein3d.engine.field_of_view.FOV_ANGLE", math.pi)
+    print("oi")
+    mocker.patch("engine.field_of_view.RAY_COUNT", 4)
+    mocker.patch("engine.field_of_view.FOV_ANGLE", math.pi)
     fov = FieldOfView(0)
     assert len(fov.rays) == 4
     assert fov.ang == 0
