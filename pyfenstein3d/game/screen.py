@@ -62,16 +62,16 @@ class Screen:
                                 offset = math.floor((ray_item.offset + 0.5) * 64)
                                 img_column = self.__images.get_column(ray_item.type_id, offset, height)
                             img.paste(img_column, (i, math.floor(self.__screen_h / 2 - height / 2)), img_column)
-        img_weapon = self.__images.get(121)
+        img_weapon = self.__images.get(player.weapon.type_id)
         if player.weapon.shoot_animation.is_animating:
             if player.weapon.shoot_animation.factor < 0.2:
-                img_weapon = self.__images.get(121, state=1)
+                img_weapon = self.__images.get(player.weapon.type_id, state=1)
             elif player.weapon.shoot_animation.factor < 0.3:
-                img_weapon = self.__images.get(121, state=2)
+                img_weapon = self.__images.get(player.weapon.type_id, state=2)
             elif player.weapon.shoot_animation.factor < 0.6:
-                img_weapon = self.__images.get(121, state=3)
+                img_weapon = self.__images.get(player.weapon.type_id, state=3)
             else:
-                img_weapon = self.__images.get(121, state=4)
+                img_weapon = self.__images.get(player.weapon.type_id, state=4)
         img.paste(img_weapon, (round(self.__screen_w / 2 - img_weapon.width / 2), self.__screen_h - img_weapon.height), img_weapon)
         return np.asarray(img)
 

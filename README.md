@@ -73,7 +73,7 @@ python -m pyfenstein3d
 - [X] Animação
 - [X] Portas
 - [X] Arma
-- [ ] Tiro
+- [X] Tiro
 - [ ] Interação itens
 - [ ] Inimigo
 - [ ] Inteligencia artificial

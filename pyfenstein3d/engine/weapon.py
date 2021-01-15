@@ -9,6 +9,10 @@ class Weapon():
         self.is_shooting = False
 
     @property
+    def type_id(self):
+        return self.__type_id
+
+    @property
     def shoot_interval(self):
         return self.__shoot_interval
 
@@ -27,4 +31,4 @@ class Weapon():
 
 class WeaponPistol(Weapon):
     def __init__(self):
-        super().__init__(251, 0.5)
+        super().__init__(121, 0.5)
