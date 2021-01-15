@@ -11,3 +11,6 @@ from .ray import Ray
 from .player import Player
 from .server import Server
 from .animation import Animation
+from .weapon import Weapon
+from .weapon import WeaponPistol
+from .door import Door

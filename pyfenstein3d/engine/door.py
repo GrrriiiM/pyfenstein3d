@@ -64,7 +64,7 @@ class Door(Block):
 
     def update(self, delta_time: float, persons: []):
         for anim in self.__animations.values():
-            anim.animate(delta_time)
+            anim.update(delta_time)
                 
     def interacted(self):
         if not self.__is_opening and not self.__is_closing:

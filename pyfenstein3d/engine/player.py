@@ -16,6 +16,10 @@ class Player(Person):
     def player_id(self):
         return self.__player_id
 
+    def update(self, delta_time: float, grid: ItemGrid):
+        super().update(delta_time, grid)
+        self.__weapon.update(delta_time, grid)
+
 
     @staticmethod
     def create(vector_x: float, vector_y: float, type_id: int):

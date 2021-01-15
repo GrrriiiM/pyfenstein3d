@@ -4,6 +4,7 @@ from engine import Ray
 from engine import Vector2d
 from engine import Wall
 from engine import ItemGrid
+from engine import Door
 
 def test_init():
     v2d = Vector2d(10.2, 5.3)
@@ -105,3 +106,27 @@ def test_cast_wall_3():
     assert ray.collided_vector2d.y == approx(2.85, abs=0.01)
     assert ray.dist_adjusted == approx(0.6, abs=0.01)
     assert ray.offset == approx(0.85, abs=0.01)
+
+def test_cast_door1():
+    pos = Vector2d(2, 5)
+    ray = Ray(0)
+    wall = Wall(10, 5, 99)
+    door1 = Door(5, 2, 1, True)
+    door2 = Door(5, 5, 1, True)
+    ray.cast_wall(pos, ItemGrid([wall]))
+    assert ray.type_id == wall.type_id
+    ray.cast_doors(pos, [door1, door2])
+    assert len(ray.doors) == 1
+    assert ray.doors[0].dist == 3
+
+def test_cast_door2():
+    pos = Vector2d(2, 5)
+    ray = Ray(math.pi)
+    wall = Wall(0, 5, 99)
+    door1 = Door(1, 2, 1, True)
+    door2 = Door(1, 5, 1, True)
+    ray.cast_wall(pos, ItemGrid([wall]))
+    assert ray.type_id == wall.type_id
+    ray.cast_doors(pos, [door1, door2])
+    assert len(ray.doors) == 1
+    assert ray.doors[0].dist == -1

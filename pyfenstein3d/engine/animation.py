@@ -29,13 +29,16 @@ class Animation:
         self.__time = 0
         self.__is_animating = True
 
-    def animate(self, delta_time: float):
+    def update(self, delta_time: float):
         if self.__is_animating:
             self.__time += delta_time
             self.__factor =  self.__time / self.__total_time
+            self.__factor = self.__factor if self.__factor <= 1 else 1;
             if self.__on_animate is not None:
                 self.__on_animate(self.__factor)
             if self.__factor >= 1:
                 self.__is_animating = False
                 if self.__on_animate_end is not None:
                     self.__on_animate_end()
+        else:
+            self.__factor = 0
