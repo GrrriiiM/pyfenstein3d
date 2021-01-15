@@ -18,6 +18,7 @@ if __name__ == "__main__":
     print("- Andar para direita: D")
     print("- Virar para esquerda: Seta esquerda")
     print("- Virar para direita: Seta direta")
+    print("- Atirar: Seta cima")
     print("- Abrir porta: Espaço")
     print()
     print("Pressione qualquer tecla para começar")

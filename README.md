@@ -61,6 +61,7 @@ python -m pyfenstein3d
 |Andar para direita | __D__            |
 |Virar para esquerda| __Seta esquerda__|
 |Virar para direita | __Seta direta__  |
+|Atirar             | __Seta cima__    |
 |Abrir porta        | __Espaço__       |
 
 ## Desenvolvimento
