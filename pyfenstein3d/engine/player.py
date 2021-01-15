@@ -10,15 +10,10 @@ class Player(Person):
     def __init__(self, vector_x: float, vector_y: float, type_id: int, fov: FieldOfView, player_id: str):
         super().__init__(vector_x, vector_y, type_id, fov)
         self.__player_id = player_id
-        self.__weapon = WeaponPistol()
 
     @property
     def player_id(self):
         return self.__player_id
-
-    def update(self, delta_time: float, grid: ItemGrid):
-        super().update(delta_time, grid)
-        self.__weapon.update(delta_time, grid)
 
 
     @staticmethod

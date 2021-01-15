@@ -38,9 +38,7 @@ class Server:
             self.__thread.join()
 
     def get_player_state(self, player_id: str):
-        return {
-            "fov": self.__map2d.get_player(player_id).fov
-        }
+        return self.__map2d.get_player(player_id)
 
     def player_start_moving_front(self, player_id: str):
         self.__map2d.get_player(player_id).is_moving_front = True
@@ -56,6 +54,8 @@ class Server:
         self.__map2d.get_player(player_id).is_turning_left = True
     def player_start_interacting(self, player_id: str):
         self.__map2d.get_player(player_id).is_interacting = True
+    def player_start_shooting(self, player_id: str):
+        self.__map2d.get_player(player_id).weapon.is_shooting = True
 
     def player_stop_moving_front(self, player_id: str):
         self.__map2d.get_player(player_id).is_moving_front = False
@@ -71,6 +71,8 @@ class Server:
         self.__map2d.get_player(player_id).is_turning_left = False
     def player_stop_interacting(self, player_id: str):
         self.__map2d.get_player(player_id).is_interacting = False
+    def player_stop_shooting(self, player_id: str):
+        self.__map2d.get_player(player_id).weapon.is_shooting = False
 
     def update(self, delta_time):
         self.__delta_time = delta_time

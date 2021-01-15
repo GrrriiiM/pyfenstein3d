@@ -38,8 +38,8 @@ class Image():
             img_y = i * img_size
             self.__images[120 + i] = []
             for j in range(5):
-                x1 = img_x + img_size * j
-                x2 = img_x + img_size * (j + 1) 
+                x1 = j + img_size * j
+                x2 = j + img_size * (j + 1) 
                 self.__images[120 + i].append(pil.Image.crop(img, (x1, img_y, x2, img_y + img_size)));
 
 

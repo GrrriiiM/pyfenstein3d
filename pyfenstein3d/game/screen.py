@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image as pil_image
 from ..engine import FieldOfView
 from ..engine import Ray
+from ..engine import Player
 from ..engine.config import RAY_COUNT
 from .image import Image
 
@@ -22,8 +23,8 @@ class Screen:
         self.__image = None
 
 
-    def draw(self, console, fov: FieldOfView):
-        pixel_matrix = self.create_pixel_matrix(fov)
+    def draw(self, console, player: Player):
+        pixel_matrix = self.create_pixel_matrix(player)
         console.WriteConsole("\033[0;0H")
         console_text = []
         for pixel_h in range(self.__screen_h):
@@ -35,7 +36,8 @@ class Screen:
             console_text.append("".join(console_line))
         console.WriteConsole("\n".join(console_text))
 
-    def create_pixel_matrix(self, fov: FieldOfView):
+    def create_pixel_matrix(self, player: Player):
+        fov = player.fov
         img = Image.create_background(self.__screen_w, self.__screen_h)
         for i in range(self.__screen_w):
             ray = fov.rays[i]
@@ -61,6 +63,15 @@ class Screen:
                                 img_column = self.__images.get_column(ray_item.type_id, offset, height)
                             img.paste(img_column, (i, math.floor(self.__screen_h / 2 - height / 2)), img_column)
         img_weapon = self.__images.get(121)
+        if player.weapon.shoot_animation.is_animating:
+            if player.weapon.shoot_animation.factor < 0.2:
+                img_weapon = self.__images.get(121, state=1)
+            elif player.weapon.shoot_animation.factor < 0.3:
+                img_weapon = self.__images.get(121, state=2)
+            elif player.weapon.shoot_animation.factor < 0.6:
+                img_weapon = self.__images.get(121, state=3)
+            else:
+                img_weapon = self.__images.get(121, state=4)
         img.paste(img_weapon, (round(self.__screen_w / 2 - img_weapon.width / 2), self.__screen_h - img_weapon.height), img_weapon)
         return np.asarray(img)
 

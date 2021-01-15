@@ -11,7 +11,7 @@ def test_shoot():
     assert weapon.is_shooting == False
     assert weapon.shoot_animation.is_animating == False
     assert weapon.shoot_animation.factor == 0
-    weapon.start_shooting()
+    weapon.is_shooting = True
     assert weapon.is_shooting == True
     assert weapon.shoot_animation.is_animating == False
     assert weapon.shoot_animation.factor == 0
@@ -31,7 +31,7 @@ def test_shoot():
     assert weapon.is_shooting == True
     assert weapon.shoot_animation.is_animating == True
     assert weapon.shoot_animation.factor == 0.6
-    weapon.stop_shooting()
+    weapon.is_shooting = False
     weapon.update(0.3, grid)
     assert weapon.is_shooting == False
     assert weapon.shoot_animation.is_animating == False

@@ -5,6 +5,7 @@ from .field_of_view import FieldOfView
 from .config import PERSON_TURN_VELOCITY
 from .config import PERSON_MOVEMENT_VELOCITY
 from .item_grid import ItemGrid
+from .weapon import WeaponPistol
 
 class Person(Block):
     def __init__(self, vector_x: float, vector_y: float, type_id: int, fov: FieldOfView):
@@ -18,6 +19,7 @@ class Person(Block):
         self.is_moving_left = False
         self.is_moving_right = False
         self.is_interacting = False
+        self.__weapon = WeaponPistol()
 
     @property
     def fov(self):
@@ -26,6 +28,10 @@ class Person(Block):
     @property
     def fov_ang(self):
         return self.__fov.ang
+
+    @property
+    def weapon(self):
+        return self.__weapon;
 
     def update(self, delta_time: float, grid: ItemGrid):
         if self.is_turning_left:
@@ -51,6 +57,7 @@ class Person(Block):
             self.move(Vector2d(movement_x / movement_count, movement_y / movement_count))
         if self.is_interacting:
             self.interact(grid)
+        self.__weapon.update(delta_time, grid)
 
     def adjust_collision(self, grid: ItemGrid):
         diff_pos = self._vector2d - self.__last_pos

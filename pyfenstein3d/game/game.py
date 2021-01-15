@@ -40,7 +40,7 @@ class Game:
             self.__command.apply(self.__server)
             self.__server.update(loop_time)
             state = self.__server.get_player_state("123")
-            self.__screen.draw(self.__console, state["fov"])
+            self.__screen.draw(self.__console, state)
             end_time = time.time()
             delta_time = end_time - start_time
             if delta_time < loop_time:
