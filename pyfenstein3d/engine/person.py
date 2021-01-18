@@ -19,7 +19,7 @@ class Person(Block):
         self.is_moving_left = False
         self.is_moving_right = False
         self.is_interacting = False
-        self.__weapon = WeaponPistol()
+        self._weapon = WeaponPistol()
 
     @property
     def fov(self):
@@ -31,7 +31,7 @@ class Person(Block):
 
     @property
     def weapon(self):
-        return self.__weapon;
+        return self._weapon;
 
     def update(self, delta_time: float, grid: ItemGrid):
         if self.is_turning_left:
@@ -57,7 +57,7 @@ class Person(Block):
             self.move(Vector2d(movement_x / movement_count, movement_y / movement_count))
         if self.is_interacting:
             self.interact(grid)
-        self.__weapon.update(delta_time, grid)
+        self._weapon.update(delta_time, grid)
 
     def adjust_collision(self, grid: ItemGrid):
         diff_pos = self._vector2d - self.__last_pos

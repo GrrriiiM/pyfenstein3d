@@ -75,7 +75,6 @@ class Screen:
         img.paste(img_weapon, (round(self.__screen_w / 2 - img_weapon.width / 2), self.__screen_h - img_weapon.height), img_weapon)
         return np.asarray(img)
 
-
     def draw_hud(self, console):
         console.WriteConsole(f"\033[{self.__screen_h};0H")
         pixel_matrix = self.get_image_hud()

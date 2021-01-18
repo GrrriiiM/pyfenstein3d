@@ -1,15 +1,8 @@
 import os
-import math
-import numpy as np
-from PIL import Image
+import time
 import win32console
 import win32con
-import time
-import keyboard
-from threading import Thread
 from ..engine import Server
-from ..engine import FieldOfView
-from ..engine.config import RAY_COUNT
 from ..engine.config import FRAME_PER_SECONDS
 from .command import Command
 from .screen import Screen
@@ -46,5 +39,5 @@ class Game:
             if delta_time < loop_time:
                 time.sleep(loop_time - delta_time)
                 delta_time = loop_time
-            win32console.SetConsoleTitle(f'Pyfenstein3d - frame: {1/delta_time}')
+            win32console.SetConsoleTitle(f'Pyfenstein3d - frame: {"%04.1f"%(1/delta_time)} - health: {"%03.0f"%state.health} - ammor: {"%03.0f"%state.ammo} - score: {state.score}')
 

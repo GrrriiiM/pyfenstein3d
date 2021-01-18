@@ -25,8 +25,8 @@ class Animation:
     def factor(self):
         return self.__factor;
 
-    def start(self):
-        self.__time = 0
+    def start(self, at: int = 0):
+        self.__time = at
         self.__is_animating = True
 
     def update(self, delta_time: float):
