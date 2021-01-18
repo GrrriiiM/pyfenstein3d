@@ -12,7 +12,7 @@ with open("requirements.txt") as f:
     install_requires = f.read().splitlines()
 
 setuptools.setup(name='pyfenstein3d',
-                 version='1.1',
+                 version='1.2',
                  description='Projeto realizado em python com intuido educacional de tentar reproduzir o jogo Wolfenstein 3d no prompt de comando.',
                  long_description=readme,
                  license=license,
