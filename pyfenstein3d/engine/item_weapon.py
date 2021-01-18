@@ -6,7 +6,6 @@ from .weapon import WeaponMinigun
 class ItemWeapon(Item):
     def touch(self, player: Player):
         if self.type_id == 85:
-            player.change_weapon(WeaponSubmachine())
+            player.change_weapon(WeaponSubmachine)
         elif self.type_id == 86:
-            player.change_weapon(WeaponMinigun())
-        
+            player.change_weapon(WeaponMinigun)

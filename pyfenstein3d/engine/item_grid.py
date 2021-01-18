@@ -32,6 +32,11 @@ class ItemGrid():
             return self.__grid[block_x, block_y]
         return None
 
+    def remove_block(self, block_x, block_y):
+        block_x = math.floor(block_x)
+        block_y = math.floor(block_y)
+        self.__grid[block_x, block_y] = None
+
     def get_blocks_by_fov(self, pos: Vector2d, fov_ang: float, fov_delta: float, dist: float, type_block = Block):
         blocks = self.__grid
         fov_ang_vec_min = Vector2d.create_with_ang(fov_ang - (fov_delta * 0.5))

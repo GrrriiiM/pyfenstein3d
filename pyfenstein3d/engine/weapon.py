@@ -20,15 +20,12 @@ class Weapon():
     def shoot_animation(self):
         return self.__shoot_animation
 
-    def update(self, delta_time:float, grid: ItemGrid):
+    def update(self, delta_time:float, person, grid: ItemGrid):
         if self.is_shooting and (not self.__shoot_animation.is_animating or self.__shoot_animation.time > self.__shoot_interval):
             self.__shoot_animation.start()
-            # self.__shoot_animation.time = 0.1
-            self.__shoot(grid)
+            person.shoot()
         self.__shoot_animation.update(delta_time)
 
-    def __shoot(self, grid: ItemGrid):
-        pass
 
 class WeaponKnife(Weapon):
     def __init__(self):

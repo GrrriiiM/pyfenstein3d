@@ -57,11 +57,16 @@ class Person(Block):
             self.move(Vector2d(movement_x / movement_count, movement_y / movement_count))
         if self.is_interacting:
             self.interact(grid)
-        self._weapon.update(delta_time, grid)
+        self._weapon.update(delta_time, self, grid)
+
+    def can_shoot(self):
+        return True
+
+    def shoot(self):
+        pass
 
     def adjust_collision(self, grid: ItemGrid):
         diff_pos = self._vector2d - self.__last_pos
-        
         item = grid.get_block(math.floor(self._vector2d.x + math.copysign(0.5, diff_pos.x)), math.floor(self.__last_pos.y))
         if item is not None and item.is_solid:
             if diff_pos.x > 0:
