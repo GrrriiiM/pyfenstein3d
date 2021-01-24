@@ -1,5 +1,6 @@
 # pyfenstein3d
 [![codecov](https://codecov.io/gh/GrrriiiM/pyfenstein3d/branch/master/graph/badge.svg?token=TREHO7M461)](https://codecov.io/gh/GrrriiiM/pyfenstein3d)
+![CI](https://github.com/GrrriiiM/pyfenstein3d/workflows/CI/badge.svg)
 
 
 Projeto realizado em python com intuido educacional de tentar reproduzir o jogo [Wolfenstein 3d](https://pt.wikipedia.org/wiki/Wolfenstein_3D) no prompt de comando.

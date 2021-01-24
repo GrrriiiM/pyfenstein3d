@@ -27,10 +27,7 @@ jobs:
       - name: Submeter resultado teste
         uses: codecov/codecov-action@v1
         with:
-          files: ./coverage.xml,./coverage2.xml # optional
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
+          fail_ci_if_error: true
       - name: Build 
         run: |
           python -m build --sdist --wheel --outdir dist/ .
