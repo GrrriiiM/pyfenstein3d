@@ -19,6 +19,7 @@ Instale [pip](https://pypi.org/project/pip/) utilizando o commando:
 ```shell
 python get-pip.py
 ```
+
 Execute o comando para realizar a instalação do pyfenstein3d:
 ```shell
 python -m pip install git+https://github.com/GrrriiiM/pyfenstein3d.git@master#egg=pyfenstein3d
@@ -52,6 +53,7 @@ Após instalação e configuração do prompt, execute o modulo com o comando ab
 ```shel
 python -m pyfenstein3d
 ```
+
 
 ## Comandos
 |Comando            | Tecla            |
