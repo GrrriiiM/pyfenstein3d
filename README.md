@@ -4,6 +4,8 @@
 [![PyPI](https://img.shields.io/pypi/v/pyfenstein3d)](https://pypi.org/project/pyfenstein3d/)
 ![CI](https://github.com/GrrriiiM/pyfenstein3d/workflows/CI/badge.svg)
 
+![GitHub Repo stars](https://img.shields.io/github/stars/grrriiim/pyfenstein3d?style=social)
+
 ## Introdução
 Projeto realizado em python com intuito educacional de tentar reproduzir o jogo [Wolfenstein 3d](https://pt.wikipedia.org/wiki/Wolfenstein_3D) no prompt de comando.
 
@@ -24,7 +26,7 @@ python -m ensurepip
 
 Execute o comando para realizar a instalação do pyfenstein3d:
 ```shell
-python -m pip install git+https://github.com/GrrriiiM/pyfenstein3d.git@master#egg=pyfenstein3d
+python -m pip install pyfenstein3d
 ```
 
 ## Configuração
