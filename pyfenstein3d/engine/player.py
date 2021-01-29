@@ -59,8 +59,7 @@ class Player(Person):
         super().update(delta_time, grid)
         block = grid.get_block(self.x, self.y)
         if isinstance(block, Item) :
-            block.touch(self)
-            grid.remove_block(self.x, self.y)
+            block.touch(self, grid)
 
     @staticmethod
     def create(vector_x: float, vector_y: float, type_id: int):

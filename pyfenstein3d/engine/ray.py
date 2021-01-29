@@ -1,7 +1,6 @@
 import math
 from .vector2d import Vector2d
 from .wall import Wall
-from .item_grid import ItemGrid
 from .item import Item
 from .door import Door
 
@@ -77,7 +76,7 @@ class Ray():
     def doors(self):
         return tuple(self.__doors)
 
-    def cast_wall(self, pos: Vector2d, grid: ItemGrid):
+    def cast_wall(self, pos: Vector2d, grid):
         dist_x = self.get_dist_x(pos)
         dist_y = self.get_dist_y(pos)
         block_x = math.floor(pos.x)
@@ -171,8 +170,9 @@ class Ray():
                     self.__vector2d = v + pos
                     self.__dist_adjusted = dist_adjusted
 
-    def cast_items(self, pos: Vector2d, items: []):
+    def cast_items(self, player, items: []):
         self.__items = []
+        pos = Vector2d(player.x, player.y)
         if self.type_id is not None:
             for i in items:
                 item: Item = i
@@ -186,7 +186,7 @@ class Ray():
                     if item_pos.y > 0.5 or item_pos.y < -0.5:
                         continue
                     dist = math.sin(math.pi / 2 - self.__rel_ang) * item_pos.x
-                    self.__items.append(RayItem(item.type_id, dist, item_pos.y))
+                    self.__items.append(RayItem(item.type_id, dist, item_pos.y, item.get_state(player)))
                     
                 
 
@@ -228,10 +228,11 @@ class Ray():
 
 
 class RayItem():
-    def __init__(self, type_id, dist, offset):
+    def __init__(self, type_id, dist, offset, state):
         self.__type_id = type_id
         self.__dist = dist
         self.__offset = offset
+        self.__state = state
 
     @property
     def type_id(self):
@@ -244,6 +245,10 @@ class RayItem():
     @property
     def offset(self):
         return self.__offset
+
+    @property
+    def state(self):
+        return self.__state
 
 class RayDoor():
     def __init__(self, dist, offset, is_vertical):
@@ -267,3 +272,7 @@ class RayDoor():
     @property
     def is_vertical(self):
         return self.__is_vertical
+
+    @property
+    def state(self):
+        return 1 if self.is_vertical else 0

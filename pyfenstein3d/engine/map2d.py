@@ -4,6 +4,7 @@ from .decoration import Decoration
 from .item_grid import ItemGrid
 from .player import Player
 from .person import Person
+from .enemy import Enemy
 from .door import Door
 from .item_weapon import ItemWeapon
 from .item_ammo import ItemAmmo
@@ -16,6 +17,7 @@ class Map2d():
         self.__players = {item.player_id: item for item in items if isinstance(item, Player)}
         self.__persons = [item for item in items if isinstance(item, Person)]
         self.__doors = [item for item in items if isinstance(item, Door)]
+        self.__enemies = [item for item in items if isinstance(item, Enemy)]
 
     @property
     def grid(self) -> Item:
@@ -61,8 +63,10 @@ class Map2d():
                     items.append(Door(block_x, block_y + 0.5, type_id, False))
                 elif type_id in type_ids_doors_vertical:
                     items.append(Door(block_x + 0.5, block_y, type_id, True))
+                elif type_id in type_ids_enemies:
+                    items.append(Enemy.create(block_x + 0.5, block_y + 0.5, type_id))
                 elif type_id in type_ids_player:
-                    items.append(Player.create(block_x, block_y, type_id))
+                    items.append(Player.create(block_x + 0.5, block_y + 0.5, type_id))
         return Map2d(items)
 
 
@@ -77,7 +81,7 @@ type_ids_walls_solid = list(range(48)) + [53, 54]
 type_ids_score = [ 87, 88, 89 ]
 type_ids_weapon = [ 85, 86 ]
 type_ids_ammo = [ 84 ]
-
 type_ids_doors_horizontal = [50]
 type_ids_doors_vertical = [49]
 type_ids_player = [255]
+type_ids_enemies = [130, 131]

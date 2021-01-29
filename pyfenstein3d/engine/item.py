@@ -12,5 +12,5 @@ class Item(Block):
         bounds.append(Vector2d(pos.x + 0.5, pos.y) ** fov_ang)
         return bounds
 
-    def touch(self, player):
+    def touch(self, player, grid):
         pass

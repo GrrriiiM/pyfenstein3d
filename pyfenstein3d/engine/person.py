@@ -4,7 +4,6 @@ from .vector2d import Vector2d
 from .field_of_view import FieldOfView
 from .config import PERSON_TURN_VELOCITY
 from .config import PERSON_MOVEMENT_VELOCITY
-from .item_grid import ItemGrid
 from .weapon import WeaponPistol
 
 class Person(Block):
@@ -33,7 +32,7 @@ class Person(Block):
     def weapon(self):
         return self._weapon;
 
-    def update(self, delta_time: float, grid: ItemGrid):
+    def update(self, delta_time: float, grid):
         if self.is_turning_left:
             self.turn(-PERSON_TURN_VELOCITY * delta_time)
         if self.is_turning_right:
@@ -65,7 +64,7 @@ class Person(Block):
     def shoot(self):
         pass
 
-    def adjust_collision(self, grid: ItemGrid):
+    def adjust_collision(self, grid):
         diff_pos = self._vector2d - self.__last_pos
         item = grid.get_block(math.floor(self._vector2d.x + math.copysign(0.5, diff_pos.x)), math.floor(self.__last_pos.y))
         if item is not None and item.is_solid:
@@ -81,8 +80,8 @@ class Person(Block):
             elif diff_pos.y < 0:
                 self._vector2d = Vector2d(self._vector2d.x, item.block_y + 1.5)
 
-    def cast(self, grid: ItemGrid):
-        self.__fov.cast(self._vector2d, grid)
+    def cast(self, grid):
+        self.__fov.cast(self, grid)
 
     def move(self, movement: Vector2d):
         self.__last_pos = self._vector2d.copy()
@@ -91,7 +90,7 @@ class Person(Block):
     def turn(self, angle: float):
         self.__fov.rot(angle)
 
-    def interact(self, grid: ItemGrid):
+    def interact(self, grid):
         view_dir = (Vector2d.create_with_ang(self.fov.ang) % 0.75) + self._vector2d
         block = grid.get_block(view_dir.x, view_dir.y)
         if block is not None:

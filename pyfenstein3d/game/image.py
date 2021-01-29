@@ -10,6 +10,8 @@ class Image():
         self.__add_wall()
         self.__add_items()
         self.__add_weapons()
+        self.__add_enemy_guard()
+        self.__add_enemy_dog()
 
     def __add_wall(self):
         img = pil.open(f'{os.path.dirname(__file__)}/../imgs/walls.png').convert('RGBA')
@@ -39,8 +41,28 @@ class Image():
             self.__images[120 + i] = []
             for j in range(5):
                 x1 = j + img_size * j
-                x2 = j + img_size * (j + 1) 
+                x2 = j + img_size * (j + 1)
                 self.__images[120 + i].append(pil.Image.crop(img, (x1, img_y, x2, img_y + img_size)));
+
+    def __add_enemy_guard(self):
+        img = pil.open(f'{os.path.dirname(__file__)}/../imgs/enemy-guard.png').convert('RGBA')
+        img_size = 64
+        self.__images[130] = []
+        for i in range(7):
+            img_y = img_size * i + i
+            for j in range(8):
+                img_x = img_size * j + j
+                self.__images[130].append(pil.Image.crop(img, (img_x, img_y, img_x + img_size, img_y + img_size)));
+
+    def __add_enemy_dog(self):
+        img = pil.open(f'{os.path.dirname(__file__)}/../imgs/enemy-dog.png').convert('RGBA')
+        img_size = 64
+        self.__images[131] = []
+        for i in range(7):
+            img_y = img_size * i + i
+            for j in range(8):
+                img_x = img_size * j + j
+                self.__images[131].append(pil.Image.crop(img, (img_x, img_y, img_x + img_size, img_y + img_size)));
 
 
     def get(self, type_id: int, width=64, height=64, state=0):

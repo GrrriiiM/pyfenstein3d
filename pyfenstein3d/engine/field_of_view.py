@@ -3,9 +3,6 @@ from .vector2d import Vector2d
 from .config import RAY_COUNT
 from .config import FOV_ANGLE
 from .ray import Ray
-from .item_grid import ItemGrid
-from .decoration import Decoration
-from .door import Door
 
 
 class FieldOfView():
@@ -45,8 +42,8 @@ class FieldOfView():
         for ray in self.__rays:
             ray.rot(rad)
 
-    def cast(self, pos: Vector2d, grid: ItemGrid):
-        
+    def cast(self, player, grid):
+        pos = Vector2d(player.x, player.y)
         for ray in self.__rays:
             ray.cast_wall(pos, grid)
             if ray.dist > self.__dist:
@@ -62,4 +59,4 @@ class FieldOfView():
         dist = max([ray.dist for ray in self.__rays])
         items = grid.get_items_by_fov(pos, self.ang, FOV_ANGLE, dist)
         for ray in self.__rays:
-            ray.cast_items(pos, items)
+            ray.cast_items(player, items)

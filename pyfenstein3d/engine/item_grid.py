@@ -6,6 +6,7 @@ from .decoration import Decoration
 from .wall import Wall
 from .door import Door
 from .block import Block
+from .enemy import Enemy
 
 
 class ItemGrid():
@@ -15,6 +16,7 @@ class ItemGrid():
         grid = [None] * self.__max_y * self.__max_x
         self.__items = []
         self.__doors = []
+        self.__enemies = []
         self.__grid = np.asarray([grid[n:n+self.__max_y]
                                   for n in range(0, len(grid), self.__max_y)])
         for block in blocks:
@@ -22,6 +24,8 @@ class ItemGrid():
                 self.__items.append(block)
             if isinstance(block, Door):
                 self.__doors.append(block)
+            if isinstance(block, Enemy):
+                self.__enemies.append(block)
             if not block.is_moveable:
                 self.__grid[block.block_x, block.block_y] = block
 
@@ -54,14 +58,20 @@ class ItemGrid():
                       if isinstance(block, type_block)]
 
         blocks = [block for block in blocks if block.is_in_fov(pos, fov_ang, fov_delta, dist)]
-        
+
         return blocks
-        
+
     def get_doors_by_fov(self, pos: Vector2d, fov_ang: float, fov_delta: float, dist: float):
         return self.get_blocks_by_fov(pos, fov_ang, fov_delta, dist, Door)
 
     def get_items_by_fov(self, pos: Vector2d, fov_ang: float, fov_delta: float, dist: float):
-        return self.get_blocks_by_fov(pos, fov_ang, fov_delta, dist, Item)
+        blocks = self.get_blocks_by_fov(pos, fov_ang, fov_delta, dist, Item)
+        blocks.extend(self.get_enemies_by_fov(pos, fov_ang, fov_delta, dist))
+        return blocks
+
+    def get_enemies_by_fov(self, pos: Vector2d, fov_ang: float, fov_delta: float, dist: float):
+        blocks = [block for block in self.__enemies if block.is_in_fov(pos, fov_ang, fov_delta, dist)]
+        return blocks
 
     @property
     def max_x(self):

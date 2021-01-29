@@ -74,3 +74,6 @@ class Block():
     
     def interacted(self):
         pass
+
+    def get_state(self, player):
+        return 0

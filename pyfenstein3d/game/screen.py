@@ -54,13 +54,12 @@ class Screen:
                     for ray_item in list_items:
                         if ray_item.dist > 0.001:
                             height = round(self.__screen_h * 2 / ray_item.dist)
-                            
                             if type(ray_item).__name__ == "RayDoor":
                                 offset = math.floor(ray_item.offset * 64)
-                                img_column = self.__images.get_column(49, offset, height, 1 if ray_item.is_vertical else 0)
+                                img_column = self.__images.get_column(49, offset, height, ray_item.state)
                             else:
                                 offset = math.floor((ray_item.offset + 0.5) * 64)
-                                img_column = self.__images.get_column(ray_item.type_id, offset, height)
+                                img_column = self.__images.get_column(ray_item.type_id, offset, height, ray_item.state)
                             img.paste(img_column, (i, math.floor(self.__screen_h / 2 - height / 2)), img_column)
         img_weapon = self.__images.get(player.weapon.type_id)
         if player.weapon.shoot_animation.is_animating:

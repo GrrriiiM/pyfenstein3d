@@ -4,8 +4,9 @@ from .weapon import WeaponSubmachine
 from .weapon import WeaponMinigun
 
 class ItemWeapon(Item):
-    def touch(self, player: Player):
+    def touch(self, player: Player, grid):
         if self.type_id == 85:
             player.change_weapon(WeaponSubmachine)
         elif self.type_id == 86:
             player.change_weapon(WeaponMinigun)
+        grid.remove_block(self.x, self.y)

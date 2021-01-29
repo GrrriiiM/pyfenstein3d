@@ -1,5 +1,4 @@
 from .animation import Animation
-from .item_grid import ItemGrid
 
 class Weapon():
     def __init__(self, type_id:int, shoot_interval:int):
@@ -20,7 +19,7 @@ class Weapon():
     def shoot_animation(self):
         return self.__shoot_animation
 
-    def update(self, delta_time:float, person, grid: ItemGrid):
+    def update(self, delta_time:float, person, grid):
         if self.is_shooting and (not self.__shoot_animation.is_animating or self.__shoot_animation.time > self.__shoot_interval):
             self.__shoot_animation.start()
             person.shoot()

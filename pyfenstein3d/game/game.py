@@ -17,6 +17,7 @@ class Game:
         self.__console = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)
         self.__console.SetConsoleActiveScreenBuffer()
         self.__server.load_map_file(
+            # f'{os.path.dirname(__file__)}/../maps_pattern/map_test.txt')
             f'{os.path.dirname(__file__)}/../maps_pattern/map_1_level_1.txt')
     
         self.__frame_count = 0
