@@ -6,11 +6,11 @@
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/grrriiim/pyfenstein3d?style=social)
 
-* [Introdução](##introdução)
-* [Instação](##instalação)
-* [Execução](##execução)
-* [Comandos](##comandos)
-* [Implementações Futuras](##implementações-futuras)
+* [Introdução](#introdução)
+* [Instação](#instalação)
+* [Execução](#execução)
+* [Comandos](#comandos)
+* [Implementações Futuras](#implementações-futuras)
 
 
 ## Introdução
