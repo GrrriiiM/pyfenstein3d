@@ -1,4 +1,5 @@
 import math
+from .vector2d import Vector2d
 from .person import Person
 from .field_of_view import FieldOfView
 from .vector2d import Vector2d
@@ -16,7 +17,8 @@ class Enemy(Person):
         return bounds
 
     def get_state(self, player):
-        ang = (player.fov_ang - (self.fov_ang + math.pi) + (math.pi * 2)) % (math.pi * 2)
+        ang = (Vector2d(player.x, player.y) - Vector2d(self.x, self.y)).ang + math.pi
+        ang = (ang - (self.fov_ang + math.pi) + (math.pi * 2)) % (math.pi * 2)
         i = math.pi / 4
         for s in range(8):
             if ang < (s + 0.5) * i:

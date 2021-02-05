@@ -6,6 +6,13 @@
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/grrriiim/pyfenstein3d?style=social)
 
+* [Introdução](##introdução)
+* [Instação](##instalação)
+* [Execução](##execução)
+* [Comandos](##comandos)
+* [Implementações Futuras](##implementações-futuras)
+
+
 ## Introdução
 Projeto realizado em python com intuito educacional de tentar reproduzir o jogo [Wolfenstein 3d](https://pt.wikipedia.org/wiki/Wolfenstein_3D) no prompt de comando.
 
@@ -29,29 +36,6 @@ Execute o comando para realizar a instalação do pyfenstein3d:
 python -m pip install pyfenstein3d
 ```
 
-## Configuração
-Devido a performance do prompt cmd, o pyfenstein3d roda em uma resolução de 100x62
-Para ter uma visualização ideal do jogo realize as seguintes instruções
-
-1. Clique na barra superior do prompt com o botão direito e selecione __Propriedades__
-![](docs/readme_image1.jpg)
-
-2. Clique na aba __Fonte__
-![](docs/readme_image2.jpg)
-
-3. Altere a __Tamanho__ para __10__
-![](docs/readme_image3.jpg)
-
-4. Altere a __Fonte__ para __Consolas__
-![](docs/readme_image4.jpg)
-
-5. Clique na aba __Layout__
-![](docs/readme_image5.jpg)
-
-4. Altere o __Tamanho da Janela__ para __largura 200__ e __altura 62__
-![](docs/readme_image6.jpg)
-
-
 ## Execução
 Após instalação e configuração do prompt, execute o modulo com o comando abaixo
 ```shel
@@ -71,7 +55,7 @@ python -m pyfenstein3d
 |Atirar             | __Seta cima__    |
 |Abrir porta        | __Espaço__       |
 
-## Desenvolvimento
+## Implementações Futuras
 - [X] "Renderizar Pixel"
 - [x] Raycasting 2d
 - [X] Raycasting "3d"
