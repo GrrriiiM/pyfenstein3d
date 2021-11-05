@@ -1,4 +1,4 @@
-# pyfenstein3d
+# pyfenstein3d :suspect:
 [![codecov](https://codecov.io/gh/GrrriiiM/pyfenstein3d/branch/master/graph/badge.svg?token=TREHO7M461)](https://codecov.io/gh/GrrriiiM/pyfenstein3d)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyPI](https://img.shields.io/pypi/v/pyfenstein3d)](https://pypi.org/project/pyfenstein3d/)
