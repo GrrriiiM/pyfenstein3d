@@ -178,6 +178,36 @@ func (s *Screen) DrawHUD() {
 	fmt.Fprint(os.Stdout, sb.String())
 }
 
+// RenderFrame renders a full game frame (3-D view + HUD) into a new NRGBA image.
+// The image is (screenW × (screenH + hudH)) pixels; each pixel corresponds to
+// one terminal "pixel" (a 2-character block).
+func (s *Screen) RenderFrame(player *engine.Player) *image.NRGBA {
+	pm := s.createPixelMatrix(player)
+	totalH := s.screenH + s.hudH
+	out := image.NewNRGBA(image.Rect(0, 0, s.screenW, totalH))
+
+	for ph := 0; ph < s.screenH; ph++ {
+		for pw := 0; pw < s.screenW; pw++ {
+			px := pm[ph][pw]
+			out.SetNRGBA(pw, ph, color.NRGBA{R: px[0], G: px[1], B: px[2], A: 255})
+		}
+	}
+
+	const imgH = 40
+	imgFactor := float64(imgH) / (float64(engine.RayCount) / 8)
+	for ph := 0; ph < s.hudH; ph++ {
+		for pw := 0; pw < s.screenW; pw++ {
+			srcX := int(math.Floor(float64(pw) * imgFactor))
+			srcY := int(math.Floor(float64(ph) * imgFactor))
+			r, g, b, a := s.hudImg.At(srcX, srcY).RGBA()
+			out.SetNRGBA(pw, s.screenH+ph, color.NRGBA{
+				R: uint8(r >> 8), G: uint8(g >> 8), B: uint8(b >> 8), A: uint8(a >> 8),
+			})
+		}
+	}
+	return out
+}
+
 // pasteColumn copies all pixels from a single-column image src into dst at (x, dstY).
 func pasteColumn(dst *image.NRGBA, src image.Image, x, dstY int) {
 	bounds := src.Bounds()
