@@ -56,7 +56,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	const loopTime = 0.1 // 1 / FramePerSeconds (10 fps)
+	const loopTime = 0.1 // 1 / FramesPerSecond (10 fps)
 	const scale = 6      // upscale factor for readability
 
 	pid := "123"
@@ -169,10 +169,6 @@ func main() {
 			}
 		}
 		a.teardown()
-		// Always snap the final state after each action as a key screenshot.
-		if !a.snapAll {
-			snap(a.label + "_final")
-		}
 	}
 
 	// Write animated GIF.

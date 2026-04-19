@@ -193,8 +193,8 @@ func (s *Screen) RenderFrame(player *engine.Player) *image.NRGBA {
 		}
 	}
 
-	const imgH = 40
-	imgFactor := float64(imgH) / (float64(engine.RayCount) / 8)
+	const hudSourceHeight = 40
+	imgFactor := float64(hudSourceHeight) / (float64(engine.RayCount) / 8)
 	for ph := 0; ph < s.hudH; ph++ {
 		for pw := 0; pw < s.screenW; pw++ {
 			srcX := int(math.Floor(float64(pw) * imgFactor))
